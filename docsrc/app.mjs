@@ -3,7 +3,6 @@ export const state = {
   description: 'nodejs fs promises and goodies.',
   logotext: '@magic/log',
   menu: [
-    { to: '/#getting-started', text: 'getting started' },
     { to: '/#install', text: 'install' },
     { to: '/#import', text: 'import' },
     {

@@ -16,4 +16,3 @@ export const fs = {
   rmDir: rmdir,
   watch: fso.watch,
 }
-

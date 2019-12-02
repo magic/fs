@@ -1,0 +1,53 @@
+{
+  "name": "@magic/fs",
+  "version": "0.0.1",
+  "author": "Wizards & Witches",
+  "description": "nodejs fs promises + mkirp + rmrf + exists",
+  "license": "AGPL-3.0",
+  "homepage": "https://magic.github.io/fs",
+  "main": "src/index.mjs",
+  "module": "src/index.mjs",
+  "type": "module",
+  "scripts": {
+    "start": "t -p",
+    "test": "t --exclude docs example config.js",
+    "format": "f -w --exclude docs",
+    "format:check": "f",
+    "calls": "calls",
+    "build": "NODE_ENV=production magic build",
+    "prod": "NODE_ENV=production magic build serve",
+    "clean": "magic clean",
+    "serve": "magic serve",
+    "dev": "magic dev"
+  },
+  "engine": {
+    "node": ">=12.13.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/magic/fs.git"
+  },
+  "bugs": {
+    "url": "https://github.com/magic/fs/issues"
+  },
+  "devDependencies": {
+    "@magic-modules/git-badges": "github:magic-modules/git-badges",
+    "@magic-modules/light-switch": "github:magic-modules/light-switch",
+    "@magic-modules/pre": "github:magic-modules/pre",
+    "@magic-themes/docs": "github:magic-themes/docs",
+    "@magic/core": "github:magic/core",
+    "@magic/test": "0.1.21"
+  },
+  "dependencies": {
+    "@magic/types": "0.1.2"
+  },
+  "files": [
+    "src"
+  ],
+  "contributors": [
+    {
+      "name": "jascha ehrenreich",
+      "github": "jaeh"
+    }
+  ]
+}

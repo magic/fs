@@ -31,5 +31,6 @@ export const mkdirp = async p => {
     if (e.code !== 'EEXIST') {
       throw e
     }
+    return true
   }
 }

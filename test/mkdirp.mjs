@@ -24,6 +24,7 @@ export default [
       await fs.mkdirp(tmpDir)
       return await fs.exists(tmpDir)
     },
+    before,
     expect: true,
     info: 'fs.mkdirp can create deep directories',
   },

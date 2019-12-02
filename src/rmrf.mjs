@@ -7,7 +7,10 @@ export const rmrf = async dir => {
     throw new Error('rmrf: expecting a string argument.')
   }
 
-  console.log(dir, process.cwd());
+  if (dir.startsWith('\\')) {
+    dir = dir.substr(1)
+  }
+
   if (!dir.startsWith(process.cwd())) {
     throw new Error('rmrf will not work outside the cwd.')
   }

@@ -1,6 +1,6 @@
 export const state = {
-  title: '@magic/log',
-  description: 'nodejs console.log with environment aware loglevels.',
+  title: '@magic/fs',
+  description: 'nodejs fs promises and goodies.',
   logotext: '@magic/log',
   menu: [
     { to: '/#getting-started', text: 'getting started' },
@@ -16,6 +16,9 @@ export const state = {
         { to: '-mkdirp', text: 'mkdirp' },
         { to: '-rmrf', text: 'rmrf' },
         { to: '-exists', text: 'exists' },
+        { to: '-getDirectories', text: 'getDirectories' },
+        { to: '-getFiles', text: 'getFiles' },
+        { to: '-getFileType', text: 'getFileType' },
       ],
     },
     {

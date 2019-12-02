@@ -4,9 +4,6 @@ export const View = state => [
 
   GitBadges('magic/fs'),
 
-  h2({ id: 'getting-started' }, 'getting started'),
-  p('be in a nodejs project.'),
-
   h3({ id: 'install' }, 'install'),
   p('be in a nodejs project'),
   Pre('npm i --save-dev @magic/fs'),

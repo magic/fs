@@ -38,6 +38,7 @@ const fns = [
   'getFileType',
   'getDirectories',
   'getFiles',
+  'getContentType',
 ]
 
 export default [

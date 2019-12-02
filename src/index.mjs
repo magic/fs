@@ -6,6 +6,7 @@ import { getFileType } from './getFileType.mjs'
 import { getDirectories } from './getDirectories.mjs'
 import { getFiles } from './getFiles.mjs'
 import { exists } from './exists.mjs'
+import { getContentType } from './getContentType.mjs'
 
 export const fs = {
   ...fso,
@@ -15,6 +16,7 @@ export const fs = {
   getDirectories,
   getFiles,
   exists,
+  getContentType,
 }
 
 export default fs

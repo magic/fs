@@ -3,8 +3,7 @@ import { is, tryCatch } from '@magic/test'
 
 import fs from '../src/index.mjs'
 
-const url = new URL(import.meta.url)
-const dirName = path.join(path.dirname(url.pathname), '.__test__')
+const dirName = path.join(process.cwd(), '.__test__')
 
 const testDirRoot = path.join(dirName, 'rmrf')
 const testDir = path.join(testDirRoot, 'deep', 'deeper')

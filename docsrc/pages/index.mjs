@@ -79,14 +79,56 @@ await fs.rmrf('./path/to/dir')
 `),
 
   h5({ id: 'usage-exists' }, 'exists'),
-  p(em('usage is discouraged')),
-
   p('same as fs.exists, but promisified.'),
 
-  h3({ id: 'import' }, 'import'),
-  Pre("import fs from '@magic/fs'"),
+  h5({ id: 'usage-getDirectories' }, 'getDirectories'),
+  p('get a list of directories in a directory, recursively.'),
 
-  h2({ id: 'usage' }, 'usage:'),
+  Pre(`
+import fs from '@magic/fs'
+
+const run = async () => {
+  // first level directories
+  const directories = await fs.getDirectories(process.cwd())
+  console.log(directories)
+
+  // recursive run
+  const deepDirectories = await fs.getDirectories(process.cwd(), true)
+  console.log(deepDirectories)
+}
+run()
+`),
+
+  h4({ id: 'usage-getFiles' }, 'getFiles'),
+  p('get a list of files in a directory, recursively.'),
+
+  Pre(`
+import fs from '@magic/fs'
+
+const run = async () => {
+  // first level files
+  const files = await fs.getFiles(process.cwd())
+  console.log(files)
+
+  // recursive run
+  const deepFiles = await fs.getFiles(process.cwd(), true)
+  console.log(deepFiles)
+}
+run()
+`),
+
+  h5({ id: 'usage-getFileType' }, 'getFileType'),
+  p(['get the file type of a file,', 'based on extension,', 'and defaulting to "txt"']),
+
+  Pre(`
+import fs from '@magic/fs'
+
+const fileType = fs.getFileType('html.html')
+console.log(fileType, fileType === 'html')
+
+const nonFileType = fs.getFileType()
+console.log(nonFileType, nonFileType === 'txt')
+`),
 
   h4({ id: 'changelog' }, 'changelog'),
 

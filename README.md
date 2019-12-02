@@ -82,10 +82,66 @@ await fs.rmrf('./path/to/dir')
 ```
 
 #### exists
-*usage is discouraged*
+same as fs.exists, but promisified and ready for esmodules.
 
-same as fs.exists, but promisified.
+#### getDirectories
+get a list of directories in a directory,
+recursively.
 
+```javascript
+import fs from '@magic/fs'
+
+const run = async () => {
+  // first level directories
+  const directories = await fs.getDirectories(process.cwd())
+  console.log(directories)
+
+  // recursive run
+  const deepDirectories = await fs.getDirectories(process.cwd(), true)
+  console.log(deepDirectories)
+}
+run()
+```
+
+#### getFiles
+get a list of files in a directory,
+recursively.
+
+```javascript
+import fs from '@magic/fs'
+
+const run = async () => {
+  // first level directories
+  const files = await fs.getFiles(process.cwd())
+  console.log(files)
+
+  // recursive run
+  const deepFiles = await fs.getFiles(process.cwd(), true)
+  console.log(deepFiles)
+}
+run()
+```
+
+#### getFileType
+get the file type of a file,
+based on extension,
+and defaulting to "txt"
+
+```javascript
+import fs from '@magic/fs'
+
+const fileType = fs.getFileType('html.html')
+console.log(fileType, fileType === 'html')
+
+const nonFileType = fs.getFileType()
+console.log(nonFileType, nonFileType === 'txt')
+
+```
+
+### changelog
+
+#### 0.0.1
+first publish
 
 [![NPM version][npm-image]][npm-url]
 [![Linux Build Status][travis-image]][travis-url]

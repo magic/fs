@@ -39,6 +39,7 @@
     "@magic/test": "0.1.21"
   },
   "dependencies": {
+    "@magic/deep": "0.1.0",
     "@magic/types": "0.1.2"
   },
   "files": [

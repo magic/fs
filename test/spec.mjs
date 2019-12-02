@@ -35,6 +35,9 @@ const fns = [
   'watch',
   'mkdirp',
   'rmrf',
+  'getFileType',
+  'getDirectories',
+  'getFiles',
 ]
 
 export default [

@@ -9,7 +9,7 @@
   "module": "src/index.mjs",
   "type": "module",
   "scripts": {
-    "start": "t -p",
+    "start": "npm test",
     "test": "t --exclude docs example config.js",
     "format": "f -w --exclude docs",
     "format:check": "f",

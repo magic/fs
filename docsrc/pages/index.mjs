@@ -8,7 +8,7 @@ export const View = state => [
   p('be in a nodejs project'),
   Pre('npm i --save-dev @magic/fs'),
 
-  h3({ id: 'import' }),
+  h3({ id: 'import' }, 'import'),
 
   Pre(`
 import fs from '@magic/fs'
@@ -115,7 +115,7 @@ run()
 `),
 
   h5({ id: 'usage-getFileType' }, 'getFileType'),
-  p(['get the file type of a file,', 'based on extension,', 'and defaulting to "txt"']),
+  p(['get the file type of a file, based on extension, and defaulting to "txt"']),
 
   Pre(`
 import fs from '@magic/fs'

@@ -127,11 +127,6 @@ const nonFileType = fs.getFileType()
 console.log(nonFileType, nonFileType === 'txt')
 `),
 
-  h4({ id: 'changelog' }, 'changelog'),
-
-  h5({ id: 'changelog-0.0.1' }, '0.0.1'),
-  p('first publish'),
-
   h2({ id: 'source' }, 'source'),
   p([
     'the source for this page is in the ',

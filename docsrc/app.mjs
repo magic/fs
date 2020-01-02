@@ -1,7 +1,7 @@
 export const state = {
   title: '@magic/fs',
   description: 'nodejs fs promises and goodies.',
-  logotext: '@magic/log',
+  logotext: '@magic/fs',
   menu: [
     { to: '/#install', text: 'install' },
     { to: '/#import', text: 'import' },
@@ -19,11 +19,6 @@ export const state = {
         { to: '-getFiles', text: 'getFiles' },
         { to: '-getFileType', text: 'getFileType' },
       ],
-    },
-    {
-      to: '/#changelog',
-      text: 'changelog',
-      items: [{ to: '-0.0.1', text: 'v0.0.1' }],
     },
     { to: '/#source', text: 'source' },
   ],

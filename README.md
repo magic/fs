@@ -1,6 +1,13 @@
 # @magic/fs
 
-exports all fs.promises + exists + mkdirp + rmrf functions.
+exports all fs.promises + exists + mkdirp + rmrf + getFiles + getDirs functions.
+
+[![NPM version][npm-image]][npm-url]
+[![Linux Build Status][travis-image]][travis-url]
+[![Windows Build Status][appveyor-image]][appveyor-url]
+[![Coverage Status][coveralls-image]][coveralls-url]
+[![Greenkeeper badge][greenkeeper-image]][greenkeeper-url]
+[![Known Vulnerabilities][snyk-image]][snyk-url]
 
 [html-docs](https://magic.github.io/fs)
 
@@ -143,12 +150,12 @@ console.log(nonFileType, nonFileType === 'txt')
 #### 0.0.1
 first publish
 
-[![NPM version][npm-image]][npm-url]
-[![Linux Build Status][travis-image]][travis-url]
-[![Windows Build Status][appveyor-image]][appveyor-url]
-[![Coverage Status][coveralls-image]][coveralls-url]
-[![Greenkeeper badge][greenkeeper-image]][greenkeeper-url]
-[![Known Vulnerabilities][snyk-image]][snyk-url]
+#### 0.0.2
+* bump required node version
+* update dependencies
+
+#### 0.0.3 - unreleased
+...
 
 [npm-image]: https://img.shields.io/npm/v/@magic/fs.svg
 [npm-url]: https://www.npmjs.com/package/@magic/fs

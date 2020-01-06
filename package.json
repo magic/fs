@@ -41,7 +41,7 @@
   },
   "dependencies": {
     "@magic/deep": "0.1.1",
-    "@magic/types": "0.1.4"
+    "@magic/types": "0.1.6"
   },
   "files": [
     "src"

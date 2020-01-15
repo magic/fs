@@ -33,8 +33,8 @@ export const getFilePath = async (fn, dir, file, recurse = true, root = false) =
 
   const stat = await fs.stat(filePath)
   if (stat.isDirectory(filePath)) {
-    const depth = filePath.replace(root, '').split('/').length
-    if (recurse || depth === 2) {
+    const depth = filePath.replace(root, '').split(path.sep).filter(a => a).length
+    if (recurse || depth === 1) {
       return await fn(filePath, recurse, root)
     }
   } else if (stat.isFile()) {

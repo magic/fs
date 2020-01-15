@@ -2,27 +2,30 @@ import path from 'path'
 
 import is from '@magic/types'
 import deep from '@magic/deep'
+import error from '@magic/error'
 
 import { fs } from './fs.mjs'
 import { exists } from './exists.mjs'
+
+const libName = '@magic/fs.get'
 
 // recursively find all directories in a directory.
 // returns array of paths relative to dir
 
 export const getFilePath = async (dir, file, recurse = true) => {
   if (is.empty(dir)) {
-    throw error('getFilePath: dir can not be empty.', 'E_ARG_EMPTY')
+    throw error(`${libName}FilePath: dir can not be empty.`, 'E_ARG_EMPTY')
   }
   if (!is.string(dir)) {
-    throw error('getFilePath: dir must be a string.', 'E_ARG_TYPE')
+    throw error(`${libName}FilePath: dir must be a string.`, 'E_ARG_TYPE')
   }
 
   if (is.empty(file)) {
-    throw error('getFilePath: file can not be empty.', 'E_ARG_EMPTY')
+    throw error(`${libName}FilePath: file can not be empty.`, 'E_ARG_EMPTY')
   }
 
   if (!is.string(file)) {
-    throw error('getFilePath: file must be a string.', 'E_ARG_TYPE')
+    throw error(`${libName}FilePath: file must be a string.`, 'E_ARG_TYPE')
   }
 
   const filePath = path.join(dir, file)
@@ -39,11 +42,11 @@ export const getFilePath = async (dir, file, recurse = true) => {
 
 export const getDirectories = async (directories, recurse = true) => {
   if (!is.array(directories) && !is.string(directories)) {
-    throw error('getDirectories: need an array or a string as first argument', 'E_ARG_TYPE')
+    throw error(`${libName}Directories: need an array or a string as first argument`, 'E_ARG_TYPE')
   }
 
   if (is.empty(directories)) {
-    throw error('getDirectories: first argument can not be empty', 'E_ARG_EMPTY')
+    throw error(`${libName}Directories: first argument can not be empty`, 'E_ARG_EMPTY')
   }
 
   try {

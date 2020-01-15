@@ -22,14 +22,11 @@ export const getDirectories = async (directories, recurse = true, root = false) 
   try {
     if (is.array(directories)) {
       const dirs = await Promise.all(
-        directories.map(async f => await getDirectories(f, recurse, f)),
+        directories.map(async f => await getDirectories(f, recurse, root)),
       )
 
       return deep.flatten(...dirs).filter(a => a)
     }
-
-    // add root dir, it is a dir after all.
-    const result = []
 
     if (!root) {
       root = directories
@@ -65,15 +62,16 @@ export const getDirectories = async (directories, recurse = true, root = false) 
               }),
             )
 
-            return files.filter(a => a)
+            return files
           }
 
           return
         }),
     )
 
-    console.log(root)
-    return Array.from(new Set(deep.flatten(directories, dirs).filter(a => a)))
+    const finalized = deep.flatten(directories, dirs).filter(a => a)
+
+    return Array.from(new Set(finalized))
   } catch (e) {
     if (e.code === 'ENOENT') {
       return []

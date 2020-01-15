@@ -154,7 +154,10 @@ first publish
 * bump required node version
 * update dependencies
 
-#### 0.0.3 - unreleased
+#### 0.0.3
+better error messages
+
+#### 0.0.4 - unreleased
 ...
 
 [npm-image]: https://img.shields.io/npm/v/@magic/fs.svg

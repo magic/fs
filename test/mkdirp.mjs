@@ -16,8 +16,18 @@ const before = () => {
 export default [
   {
     fn: tryCatch(fs.mkdirp),
-    expect: is.error,
-    info: 'fs.mkdirp without arguments errors',
+    expect: t => t.name === 'E_ARG_EMPTY',
+    info: 'no arguments errors with E_ARG_EMPTY',
+  },
+  {
+    fn: tryCatch(fs.mkdirp, ''),
+    expect: t => t.name === 'E_ARG_EMPTY',
+    info: 'empty argument errors with E_ARG_EMPTY',
+  },
+  {
+    fn: tryCatch(fs.mkdirp, 23),
+    expect: t => t.name === 'E_ARG_TYPE',
+    info: 'invalid argument type errors with E_ARG_TYPE',
   },
   {
     fn: async () => {

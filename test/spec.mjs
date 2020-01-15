@@ -39,6 +39,7 @@ const fns = [
   'getDirectories',
   'getFiles',
   'getContentType',
+  'getFilePath',
 ]
 
 export default [

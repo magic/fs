@@ -5,13 +5,15 @@ import is from '@magic/types'
 
 import { fs } from './fs.mjs'
 
+const libName = '@magic/fs.mkdirp'
+
 export const mkdirp = async p => {
-  if (!is.string) {
-    throw error('mkdirp needs a path string as argument', 'E_ARG_TYPE')
+  if (is.empty(p)) {
+    throw error(`${libName} expects a non-empty path string as argument.`, 'E_ARG_EMPTY')
   }
 
-  if (is.empty(p)) {
-    throw error('mkdirp needs a non-empty path string as argument', 'E_ARG_EMPTY')
+  if (!is.string(p)) {
+    throw error(`${libName} expects a path string as argument, got: ${typeof p}`, 'E_ARG_TYPE')
   }
 
   p = path.resolve(p)
@@ -27,9 +29,10 @@ export const mkdirp = async p => {
     await fs.mkdir(p)
     return true
   } catch (e) {
-    if (e.code !== 'EEXIST') {
-      throw e
+    if (e.code === 'EEXIST') {
+      return true
     }
-    return true
+
+    throw error(e.message, e.code)
   }
 }

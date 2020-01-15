@@ -6,41 +6,11 @@ import error from '@magic/error'
 
 import { fs } from './fs.mjs'
 import { exists } from './exists.mjs'
+import { getFilePath } from './getFilePath.mjs'
 
 const libName = '@magic/fs.get'
 
-// recursively find all directories in a directory.
-// returns array of paths relative to dir
-
-export const getFilePath = async (dir, file, recurse = true) => {
-  if (is.empty(dir)) {
-    throw error(`${libName}FilePath: dir can not be empty.`, 'E_ARG_EMPTY')
-  }
-  if (!is.string(dir)) {
-    throw error(`${libName}FilePath: dir must be a string.`, 'E_ARG_TYPE')
-  }
-
-  if (is.empty(file)) {
-    throw error(`${libName}FilePath: file can not be empty.`, 'E_ARG_EMPTY')
-  }
-
-  if (!is.string(file)) {
-    throw error(`${libName}FilePath: file must be a string.`, 'E_ARG_TYPE')
-  }
-
-  const filePath = path.join(dir, file)
-
-  const stat = await fs.stat(filePath)
-  if (stat.isDirectory(filePath)) {
-    if (recurse) {
-      return await getDirectories(filePath, recurse)
-    } else {
-      return filePath
-    }
-  }
-}
-
-export const getDirectories = async (directories, recurse = true) => {
+export const getDirectories = async (directories, recurse = true, root = false) => {
   if (!is.array(directories) && !is.string(directories)) {
     throw error(`${libName}Directories: need an array or a string as first argument`, 'E_ARG_TYPE')
   }
@@ -52,22 +22,58 @@ export const getDirectories = async (directories, recurse = true) => {
   try {
     if (is.array(directories)) {
       const dirs = await Promise.all(
-        directories
-          .filter(async f => await exists(f))
-          .map(async f => await getDirectories(f, recurse))
-          .filter(a => a),
+        directories.map(async f => await getDirectories(f, recurse, f)),
       )
 
-      return deep.flatten(...dirs)
+      return deep.flatten(...dirs).filter(a => a)
     }
 
-    const flattened = [directories]
+    // add root dir, it is a dir after all.
+    const result = []
+
+    if (!root) {
+      root = directories
+    }
+
     const dirContent = await fs.readdir(directories)
+
     const dirs = await Promise.all(
-      dirContent.map(async file => await getFilePath(directories, file, recurse)),
+      dirContent
+        // .filter(async f => await exists(f))
+        .map(async file => {
+          if (!is.string(file)) {
+            throw error(`${libName}: path was not a string: ${file}`, 'E_ARG_TYPE')
+          }
+
+          let filePath = await getFilePath(getDirectories, directories, file, recurse, root)
+
+          if (filePath) {
+            if (!is.array(filePath)) {
+              filePath = [filePath]
+            }
+
+            const files = await Promise.all(
+              filePath.map(async file => {
+                if (!is.string(file)) {
+                  throw error(`${libName}: path was not a string: ${file}`, 'E_ARG_TYPE')
+                }
+
+                const stat = await fs.stat(file)
+                if (stat.isDirectory()) {
+                  return filePath
+                }
+              }),
+            )
+
+            return files.filter(a => a)
+          }
+
+          return
+        }),
     )
 
-    return deep.flatten(flattened, dirs).filter(a => a)
+    console.log(root)
+    return Array.from(new Set(deep.flatten(directories, dirs).filter(a => a)))
   } catch (e) {
     if (e.code === 'ENOENT') {
       return []

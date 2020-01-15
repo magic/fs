@@ -1,35 +1,46 @@
 import path from 'path'
 
 import deep from '@magic/deep'
+import is from '@magic/types'
+import error from '@magic/error'
 
+import { getFilePath } from './getFilePath.mjs'
 import { fs } from './fs.mjs'
 
-export const getFilePath = (dir, recurse = true) => async file => {
-  const filePath = path.join(dir, file)
-
-  const stat = await fs.stat(filePath)
-  if (stat.isDirectory(filePath)) {
-    if (recurse) {
-      return await getFiles(filePath, recurse)
-    }
-  } else if (stat.isFile()) {
-    return filePath
-  }
-}
+const libName = '@magic/fs.getFiles'
 
 // recursively find all files in a directory.
 // returns array of paths relative to dir
 
 export const getFiles = async (dir, recurse = true) => {
+  if (is.empty(dir)) {
+    throw error(`${libName}: dir: first argument can not be empty.`, 'E_ARG_EMPTY')
+  }
+
+  if (!is.string(dir)) {
+    throw error(`${libName}: dir: first argument must be a string.`, 'E_ARG_TYPE')
+  }
+
   try {
     const dirContent = await fs.readdir(dir)
-    const files = await Promise.all(dirContent.map(getFilePath(dir, recurse)))
+    const files = await Promise.all(
+      dirContent.map(file => getFilePath(getFiles, dir, file, recurse)),
+    )
 
-    return deep.flatten(files).filter(a => a)
+    return await Promise.all(
+      deep
+        .flatten(files)
+        .filter(a => a)
+        .filter(async f => {
+          const stat = await fs.stat(f)
+          return stat.isFile()
+        }),
+    )
   } catch (e) {
     if (e.code === 'ENOENT') {
       return []
     }
-    throw e
+
+    throw error(e.message, e.code)
   }
 }

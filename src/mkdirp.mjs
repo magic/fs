@@ -1,27 +1,24 @@
 import path from 'path'
 
 import error from '@magic/error'
+import is from '@magic/types'
 
 import { fs } from './fs.mjs'
 
 export const mkdirp = async p => {
-  if (!p) {
-    throw error('mkdirp needs an argument', 'E_ARG_EMPTY')
+  if (!is.string) {
+    throw error('mkdirp needs a path string as argument', 'E_ARG_TYPE')
+  }
+
+  if (is.empty(p)) {
+    throw error('mkdirp needs a non-empty path string as argument', 'E_ARG_EMPTY')
   }
 
   p = path.resolve(p)
 
   try {
     const dir = path.dirname(p)
-    let exists = false
-    try {
-      await fs.stat(dir)
-      exists = true
-    } catch (e) {
-      if (e.code !== 'ENOENT') {
-        throw e
-      }
-    }
+    let exists = await fs.exists(dir)
 
     if (!exists) {
       await mkdirp(dir)

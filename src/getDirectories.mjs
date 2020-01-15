@@ -10,6 +10,21 @@ import { exists } from './exists.mjs'
 // returns array of paths relative to dir
 
 export const getFilePath = async (dir, file, recurse = true) => {
+  if (is.empty(dir)) {
+    throw error('getFilePath: dir can not be empty.', 'E_ARG_EMPTY')
+  }
+  if (!is.string(dir)) {
+    throw error('getFilePath: dir must be a string.', 'E_ARG_TYPE')
+  }
+
+  if (is.empty(file)) {
+    throw error('getFilePath: file can not be empty.', 'E_ARG_EMPTY')
+  }
+
+  if (!is.string(file)) {
+    throw error('getFilePath: file must be a string.', 'E_ARG_TYPE')
+  }
+
   const filePath = path.join(dir, file)
 
   const stat = await fs.stat(filePath)
@@ -23,6 +38,14 @@ export const getFilePath = async (dir, file, recurse = true) => {
 }
 
 export const getDirectories = async (directories, recurse = true) => {
+  if (!is.array(directories) && !is.string(directories)) {
+    throw error('getDirectories: need an array or a string as first argument', 'E_ARG_TYPE')
+  }
+
+  if (is.empty(directories)) {
+    throw error('getDirectories: first argument can not be empty', 'E_ARG_EMPTY')
+  }
+
   try {
     if (is.array(directories)) {
       const dirs = await Promise.all(

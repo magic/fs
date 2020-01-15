@@ -6,7 +6,7 @@ const cwd = process.cwd()
 
 export const rmrf = async dir => {
   if (!dir) {
-    throw new Error('rmrf: expecting a string argument.')
+    throw error('rmrf: expecting a string argument.', 'E_ARG_TYPE')
   }
 
   if (dir.startsWith('\\')) {
@@ -15,7 +15,7 @@ export const rmrf = async dir => {
 
   if (!dir.startsWith(cwd)) {
     if (path.isabsolute(dir)) {
-      throw new Error('rmrf will not work outside the cwd.')
+      throw error('rmrf will not work outside the cwd.', 'E_OUTSIDE_CWD')
     } else {
       dir = path.join(cwd, dir)
     }
@@ -27,6 +27,7 @@ export const rmrf = async dir => {
     if (e.code === 'ENOENT') {
       return
     }
+
     throw e
   }
 

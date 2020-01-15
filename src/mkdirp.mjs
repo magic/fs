@@ -1,10 +1,12 @@
 import path from 'path'
 
+import error from '@magic/error'
+
 import { fs } from './fs.mjs'
 
 export const mkdirp = async p => {
   if (!p) {
-    throw new Error('mkdirp needs an argument')
+    throw error('mkdirp needs an argument', 'E_ARG_EMPTY')
   }
 
   p = path.resolve(p)

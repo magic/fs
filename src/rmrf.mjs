@@ -1,43 +1,44 @@
 import path from 'path'
 
+import { error } from '@magic/error'
+import { is } from '@magic/types'
+
 import { fs } from './fs.mjs'
 
 const cwd = process.cwd()
 
-export const rmrf = async dir => {
-  if (!dir) {
-    throw error('rmrf: expecting a string argument.', 'E_ARG_TYPE')
-  }
+const libName = '@magic/fs.rmrf'
 
-  if (dir.startsWith('\\')) {
-    dir = dir.substr(1)
+export const rmrf = async dir => {
+  if (is.empty(dir)) {
+    throw error(`${libName}: expecting a string argument.`, 'E_ARG_EMPTY')
+  }
+  if (!is.string(dir)) {
+    throw error(`${libName}: expecting a string argument.`, 'E_ARG_TYPE')
   }
 
   if (!dir.startsWith(cwd)) {
-    if (path.isabsolute(dir)) {
-      throw error('rmrf will not work outside the cwd.', 'E_OUTSIDE_CWD')
+    if (path.isAbsolute(dir)) {
+      throw error(`${libName}: will not work outside the cwd.`, 'E_OUTSIDE_CWD')
     } else {
       dir = path.join(cwd, dir)
     }
   }
 
   try {
-    await fs.stat(dir)
-  } catch (e) {
-    if (e.code === 'ENOENT') {
-      return
+    const stat = await fs.stat(dir)
+
+    if (stat.isFile()) {
+      await fs.unlink(dir)
+      return true
+    } else if (stat.isDirectory()) {
+      const files = await fs.readdir(dir)
+      await Promise.all(files.map(async file => await rmrf(path.join(dir, file))))
+
+      await fs.rmdir(dir)
+      return true
     }
-
-    throw e
-  }
-
-  const stat = await fs.stat(dir)
-  if (stat.isFile()) {
-    await fs.unlink(dir)
-  } else if (stat.isDirectory()) {
-    const files = await fs.readdir(dir)
-    await Promise.all(files.map(async file => await rmrf(path.join(dir, file))))
-
-    await fs.rmdir(dir)
+  } catch (e) {
+    throw error(e.message, e.code)
   }
 }

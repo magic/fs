@@ -2,6 +2,8 @@ import path from 'path'
 
 import { fs } from './fs.mjs'
 
+const cwd = process.cwd()
+
 export const rmrf = async dir => {
   if (!dir) {
     throw new Error('rmrf: expecting a string argument.')
@@ -11,8 +13,12 @@ export const rmrf = async dir => {
     dir = dir.substr(1)
   }
 
-  if (!dir.startsWith(process.cwd())) {
-    throw new Error('rmrf will not work outside the cwd.')
+  if (!dir.startsWith(cwd)) {
+    if (path.isabsolute(dir)) {
+      throw new Error('rmrf will not work outside the cwd.')
+    } else {
+      dir = path.join(cwd, dir)
+    }
   }
 
   try {

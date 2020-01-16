@@ -43,7 +43,7 @@
   },
   "dependencies": {
     "@magic/deep": "0.1.2",
-    "@magic/error": "0.0.1",
+    "@magic/error": "0.0.2",
     "@magic/types": "0.1.9"
   },
   "files": [

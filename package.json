@@ -39,7 +39,7 @@
     "@magic-themes/docs": "0.0.3",
     "@magic/core": "0.0.19",
     "@magic/format": "0.0.7",
-    "@magic/test": "0.1.32"
+    "@magic/test": "0.1.33"
   },
   "dependencies": {
     "@magic/deep": "0.1.2",

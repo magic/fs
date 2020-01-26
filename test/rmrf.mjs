@@ -20,16 +20,20 @@ const before = async dir => {
 }
 
 export default [
-  { fn: tryCatch(fs.rmrf), expect: is.error, info: 'rmrf errors without an argument' },
   {
     fn: tryCatch(fs.rmrf),
-    expect: is.error,
-    info: 'rmrf without argument errors with E_ARG_EMPTY',
+    expect: t => t.code === 'E_DIR_EMPTY',
+    info: 'rmrf errors without an argument',
+  },
+  {
+    fn: tryCatch(fs.rmrf),
+    expect: t => t.code === 'E_DIR_EMPTY',
+    info: 'rmrf without argument errors with E_DIR_EMPTY',
   },
   {
     fn: tryCatch(fs.rmrf, 23),
-    expect: is.error,
-    info: 'rmrf without argument errors with E_ARG_TYPE',
+    expect: t => t.code === 'E_DIR_TYPE',
+    info: 'rmrf without argument errors with E_DIR_TYPE',
   },
   {
     fn: async () => {
@@ -56,7 +60,7 @@ export default [
   },
   {
     fn: tryCatch(fs.rmrf, path.join('/', 'non', 'existent', 'dir')),
-    expect: is.error,
+    expect: t => t.code === 'E_OUTSIDE_CWD',
     info: 'rmrf returns E_OUTSIDE_CWD for dirs outside the cwd',
   },
   {

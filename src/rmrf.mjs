@@ -1,5 +1,8 @@
 import path from 'path'
 
+import is from '@magic/types'
+import error from '@magic/error'
+
 import { fs } from './fs.mjs'
 
 const cwd = process.cwd()
@@ -7,12 +10,12 @@ const cwd = process.cwd()
 const libName = '@magic/fs.rmrf'
 
 export const rmrf = async dir => {
-  if (!dir) {
-    throw new Error(`${libName}: expecting a string argument.`)
+  if (is.empty(dir)) {
+    throw error(`${libName}: expecting a non-empty argument.`, 'E_DIR_EMPTY')
   }
 
-  if (dir.startsWith('\\')) {
-    dir = dir.substr(1)
+  if (!is.string(dir)) {
+    throw error(`${libName}: expecting a string argument.`, 'E_DIR_TYPE')
   }
 
   if (!path.isAbsolute(dir)) {
@@ -20,7 +23,7 @@ export const rmrf = async dir => {
   }
 
   if (!dir.startsWith(cwd)) {
-    throw new Error(`${libName} will not work outside the cwd.`)
+    throw error(`${libName} will not work outside the cwd.`, 'E_OUTSIDE_CWD')
   }
 
   try {
@@ -41,6 +44,6 @@ export const rmrf = async dir => {
       return true
     }
 
-    throw e
+    throw error(e)
   }
 }

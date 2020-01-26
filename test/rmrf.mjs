@@ -23,12 +23,12 @@ export default [
   { fn: tryCatch(fs.rmrf), expect: is.error, info: 'rmrf errors without an argument' },
   {
     fn: tryCatch(fs.rmrf),
-    expect: t => t.name === 'E_ARG_EMPTY',
+    expect: is.error,
     info: 'rmrf without argument errors with E_ARG_EMPTY',
   },
   {
     fn: tryCatch(fs.rmrf, 23),
-    expect: t => t.name === 'E_ARG_TYPE',
+    expect: is.error,
     info: 'rmrf without argument errors with E_ARG_TYPE',
   },
   {
@@ -51,13 +51,13 @@ export default [
   },
   {
     fn: tryCatch(fs.rmrf, path.join(dirName, 'non', 'existent', 'dir')),
-    expect: t => t.name === 'ENOENT',
-    info: 'rmrf throws ENOENT if the directory/file does not exist',
+    expect: true,
+    info: 'rmrf returns true if the directory/file does not exist',
   },
   {
     fn: tryCatch(fs.rmrf, path.join('/', 'non', 'existent', 'dir')),
-    expect: t => t.name === 'E_OUTSIDE_CWD',
-    info: 'rmrf returns ',
+    expect: is.error,
+    info: 'rmrf returns E_OUTSIDE_CWD for dirs outside the cwd',
   },
   {
     fn: async () => await fs.rmrf('.__test__test3'),

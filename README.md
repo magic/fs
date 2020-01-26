@@ -148,7 +148,7 @@ console.log(nonFileType, nonFileType === 'txt')
 ### changelog
 
 #### 0.0.1
-first publish
+first release
 
 #### 0.0.2
 * bump required node version
@@ -157,8 +157,12 @@ first publish
 #### 0.0.3
 better error messages
 
-#### 0.0.4 - unreleased
+#### 0.0.4
+rmrf returns true if directory does not exist.
+
+#### 0.0.5 - unreleased
 ...
+
 
 [npm-image]: https://img.shields.io/npm/v/@magic/fs.svg
 [npm-url]: https://www.npmjs.com/package/@magic/fs

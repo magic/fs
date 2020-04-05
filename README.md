@@ -160,7 +160,10 @@ better error messages
 #### 0.0.4
 rmrf returns true if directory does not exist.
 
-#### 0.0.5 - unreleased
+#### 0.0.5
+use @magic/mime-types to export contentTypes
+
+#### 0.0.6 - unreleased
 ...
 
 

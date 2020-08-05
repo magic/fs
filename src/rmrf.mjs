@@ -9,7 +9,7 @@ const cwd = process.cwd()
 
 const libName = '@magic/fs.rmrf'
 
-export const rmrf = async dir => {
+export const rmrf = async (dir, opts = {}) => {
   if (is.empty(dir)) {
     throw error(`${libName}: expecting a non-empty argument.`, 'E_DIR_EMPTY')
   }
@@ -30,13 +30,18 @@ export const rmrf = async dir => {
     const stat = await fs.stat(dir)
 
     if (stat.isFile()) {
-      await fs.unlink(dir)
+      if (!opts.dryRun) {
+        await fs.unlink(dir)
+      }
       return true
     } else if (stat.isDirectory()) {
       const files = await fs.readdir(dir)
+
       await Promise.all(files.map(async file => await rmrf(path.join(dir, file))))
 
-      await fs.rmdir(dir)
+      if (!opts.dryRun) {
+        await fs.rmdir(dir)
+      }
       return true
     }
   } catch (e) {

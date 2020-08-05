@@ -166,7 +166,10 @@ use @magic/mime-types to export contentTypes
 #### 0.0.6
 bump required node version to 14.2.0
 
-#### 0.0.7 - unreleased
+#### 0.0.7
+rmrf: add dryRun option
+
+#### 0.0.8 - unreleased
 ...
 
 

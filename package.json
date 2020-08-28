@@ -38,8 +38,8 @@
     "@magic-modules/pre": "0.0.9",
     "@magic-themes/docs": "0.0.10",
     "@magic/core": "0.0.87",
-    "@magic/format": "0.0.13",
-    "@magic/test": "0.1.52"
+    "@magic/format": "0.0.14",
+    "@magic/test": "0.1.53"
   },
   "dependencies": {
     "@magic/deep": "0.1.3",

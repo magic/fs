@@ -169,7 +169,10 @@ bump required node version to 14.2.0
 #### 0.0.7
 rmrf: add dryRun option
 
-#### 0.0.8 - unreleased
+#### 0.0.8 
+update dependencies
+
+#### 0.0.9 - unreleased
 ...
 
 

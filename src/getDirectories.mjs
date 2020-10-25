@@ -1,11 +1,8 @@
-import path from 'path'
-
 import is from '@magic/types'
 import deep from '@magic/deep'
 import error from '@magic/error'
 
 import { fs } from './fs.mjs'
-import { exists } from './exists.mjs'
 import { getFilePath } from './getFilePath.mjs'
 
 const libName = '@magic/fs.get'

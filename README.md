@@ -173,6 +173,9 @@ rmrf: add dryRun option
 update dependencies
 
 #### 0.0.9 - unreleased
+remove unused imports from getDirectories
+
+#### 0.0.10 - unreleased
 ...
 
 

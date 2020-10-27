@@ -18,6 +18,23 @@ const expectedFilesRecursive = [
   path.join(process.cwd(), '.__test__files_recursive', 'test2', 'deep', 'test2.js'),
 ]
 
+const expectedFilesRecursiveDepth1 = [
+  path.join(process.cwd(), '.__test__files_recursive_depth_1', 'test.js'),
+]
+
+const expectedFilesRecursiveDepth2 = [
+  path.join(process.cwd(), '.__test__files_recursive_depth_2', 'test', 'deep', 'test.js'),
+  path.join(process.cwd(), '.__test__files_recursive_depth_2', 'test.js'),
+  path.join(process.cwd(), '.__test__files_recursive_depth_2', 'test2', 'deep', 'test2.js'),
+]
+
+const expectedFilesRecursiveDepth3 = [
+  path.join(process.cwd(), '.__test__files_recursive_depth_3', 'test', 'deep', 'test.js'),
+  path.join(process.cwd(), '.__test__files_recursive_depth_3', 'test.js'),
+  path.join(process.cwd(), '.__test__files_recursive_depth_3', 'test2', 'deep', 'deeper', 'deep.js'),
+  path.join(process.cwd(), '.__test__files_recursive_depth_3', 'test2', 'deep', 'test2.js'),
+]
+
 export default [
   {
     fn: async () => await fs.getFiles(`${dirName}files_recursive`),
@@ -30,6 +47,24 @@ export default [
     before: createTestDirs('files_norecurse'),
     expect: expectedFiles,
     info: 'finds all files in directory. without recursion.',
+  },
+  {
+    fn: async () => await fs.getFiles(`${dirName}files_recursive_depth_1`, 1),
+    before: createTestDirs('files_recursive_depth_1'),
+    expect: expectedFilesRecursiveDepth1,
+    info: 'finds all files in directory. recursively, but for depth 1',
+  },
+  {
+    fn: async () => await fs.getFiles(`${dirName}files_recursive_depth_2`, 2),
+    before: createTestDirs('files_recursive_depth_2'),
+    expect: expectedFilesRecursiveDepth2,
+    info: 'finds all files in directory. recursively, but for depth 2',
+  },
+  {
+    fn: async () => await fs.getFiles(`${dirName}files_recursive_depth_3`, 3),
+    before: createTestDirs('files_recursive_depth_3'),
+    expect: expectedFilesRecursiveDepth3,
+    info: 'finds all files in directory. recursively, but for depth 3',
   },
   {
     fn: async () => await fs.getFiles('non_existing_path'),

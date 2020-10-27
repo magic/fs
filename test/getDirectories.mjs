@@ -15,6 +15,7 @@ const expectedDirsRecursive = [
   path.join(process.cwd(), '.__test__dirs_recursive', 'test', 'deep'),
   path.join(process.cwd(), '.__test__dirs_recursive', 'test2'),
   path.join(process.cwd(), '.__test__dirs_recursive', 'test2', 'deep'),
+  path.join(process.cwd(), '.__test__dirs_recursive', 'test2', 'deep', 'deeper'),
 ]
 
 const expectedDirs = [
@@ -23,12 +24,53 @@ const expectedDirs = [
   path.join(process.cwd(), '.__test__dirs_norecurse', 'test2'),
 ]
 
+const expectedDirsDepth1 = [
+  path.join(process.cwd(), '.__test__dirs_recursive_depth'),
+  path.join(process.cwd(), '.__test__dirs_recursive_depth', 'test'),
+  path.join(process.cwd(), '.__test__dirs_recursive_depth', 'test2'),
+]
+
+const expectedDirsDepth2 = [
+  path.join(process.cwd(), '.__test__dirs_recursive_depth_2'),
+  path.join(process.cwd(), '.__test__dirs_recursive_depth_2', 'test'),
+  path.join(process.cwd(), '.__test__dirs_recursive_depth_2', 'test', 'deep'),
+  path.join(process.cwd(), '.__test__dirs_recursive_depth_2', 'test2'),
+  path.join(process.cwd(), '.__test__dirs_recursive_depth_2', 'test2', 'deep'),
+]
+
+const expectedDirsDepth3 = [
+  path.join(process.cwd(), '.__test__dirs_recursive_depth_3'),
+  path.join(process.cwd(), '.__test__dirs_recursive_depth_3', 'test'),
+  path.join(process.cwd(), '.__test__dirs_recursive_depth_3', 'test', 'deep'),
+  path.join(process.cwd(), '.__test__dirs_recursive_depth_3', 'test2'),
+  path.join(process.cwd(), '.__test__dirs_recursive_depth_3', 'test2', 'deep'),
+  path.join(process.cwd(), '.__test__dirs_recursive_depth_3', 'test2', 'deep', 'deeper'),
+]
+
 export default [
   {
     fn: async () => await fs.getDirectories(`${dirName}dirs_recursive`),
     before: createTestDirs('dirs_recursive'),
     expect: expectedDirsRecursive,
     info: 'finds all directories in directory. recursively',
+  },
+  {
+    fn: async () => await fs.getDirectories(`${dirName}dirs_recursive_depth`, 1),
+    before: createTestDirs('dirs_recursive_depth'),
+    expect: expectedDirsDepth1,
+    info: 'finds all directories in directory. recursively but with depth 1',
+  },
+  {
+    fn: async () => await fs.getDirectories(`${dirName}dirs_recursive_depth_2`, 2),
+    before: createTestDirs('dirs_recursive_depth_2'),
+    expect: expectedDirsDepth2,
+    info: 'finds all directories in directory. recursively but with depth 2',
+  },
+  {
+    fn: async () => await fs.getDirectories(`${dirName}dirs_recursive_depth_3`, 3),
+    before: createTestDirs('dirs_recursive_depth_3'),
+    expect: expectedDirsDepth3,
+    info: 'finds all directories in directory. recursively but with depth 3',
   },
   {
     fn: async () => await fs.getDirectories(`${dirName}dirs_norecurse`, false),

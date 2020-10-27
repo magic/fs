@@ -15,7 +15,15 @@ const expectedFilesRecursive = [
   path.join(process.cwd(), '.__test__files_recursive', 'test', 'deep', 'test.js'),
   path.join(process.cwd(), '.__test__files_recursive', 'test.js'),
   path.join(process.cwd(), '.__test__files_recursive', 'test2', 'deep', 'deeper', 'deep.js'),
-  path.join(process.cwd(), '.__test__files_recursive', 'test2', 'deep', 'deeper', 'evendeeper', 'deepest.js'),
+  path.join(
+    process.cwd(),
+    '.__test__files_recursive',
+    'test2',
+    'deep',
+    'deeper',
+    'evendeeper',
+    'deepest.js',
+  ),
   path.join(process.cwd(), '.__test__files_recursive', 'test2', 'deep', 'test2.js'),
 ]
 
@@ -32,7 +40,14 @@ const expectedFilesRecursiveDepth2 = [
 const expectedFilesRecursiveDepth3 = [
   path.join(process.cwd(), '.__test__files_recursive_depth_3', 'test', 'deep', 'test.js'),
   path.join(process.cwd(), '.__test__files_recursive_depth_3', 'test.js'),
-  path.join(process.cwd(), '.__test__files_recursive_depth_3', 'test2', 'deep', 'deeper', 'deep.js'),
+  path.join(
+    process.cwd(),
+    '.__test__files_recursive_depth_3',
+    'test2',
+    'deep',
+    'deeper',
+    'deep.js',
+  ),
   path.join(process.cwd(), '.__test__files_recursive_depth_3', 'test2', 'deep', 'test2.js'),
 ]
 

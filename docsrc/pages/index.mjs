@@ -92,6 +92,11 @@ const run = async () => {
   // recursive run
   const deepDirectories = await fs.getDirectories(process.cwd(), true)
   console.log(deepDirectories)
+
+  // recursive run with specified depth, 
+  // just pass a number as second argument
+  const deepDirectoriesDepth2 = await fs.getDirectories(process.cwd(), 2)
+  console.log(deepDirectoriesDepth2)
 }
 run()
 `),
@@ -110,6 +115,11 @@ const run = async () => {
   // recursive run
   const deepFiles = await fs.getFiles(process.cwd(), true)
   console.log(deepFiles)
+
+  // recursive run with specified depth, 
+  // just pass a number as second argument
+  const getFilesDepth2 = await fs.getFiles(process.cwd(), 2)
+  console.log(getFilesDepth2)
 }
 run()
 `),

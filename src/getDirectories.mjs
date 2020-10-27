@@ -32,10 +32,9 @@ export const getDirectories = async (directories, recurse = true, root = false) 
       root = directories
     }
 
-    const currentDirDepth = directories.replace(root, '').split(path.sep).length
-
     if (is.number(recurse)) {
-      if (currentDirDepth - 1 > recurse) {
+      const currentDepth = directories.replace(root, '').split(path.sep).length
+      if (currentDepth - 1 > recurse) {
         return []
       }
     }

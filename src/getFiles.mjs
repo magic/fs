@@ -12,7 +12,7 @@ const libName = '@magic/fs.getFiles'
 // recursively find all files in a directory.
 // returns array of paths relative to dir
 
-export const getFiles = async (dir, recurse = true) => {
+export const getFiles = async (dir, recurse = true, root = false) => {
   if (is.empty(dir)) {
     throw error(`${libName}: dir: first argument can not be empty.`, 'E_ARG_EMPTY')
   }
@@ -21,10 +21,21 @@ export const getFiles = async (dir, recurse = true) => {
     throw error(`${libName}: dir: first argument must be a string.`, 'E_ARG_TYPE')
   }
 
+  if (!root) {
+    root = dir
+  }
+
+  if (is.number(recurse)) {
+    const currentDepth = dir.replace(root, '').split(path.sep).length
+    if (currentDepth - 1 > recurse) {
+      return []
+    }
+  }
+
   try {
     const dirContent = await fs.readdir(dir)
     const files = await Promise.all(
-      dirContent.map(file => getFilePath(getFiles, dir, file, recurse)),
+      dirContent.map(file => getFilePath(getFiles, dir, file, recurse, root)),
     )
 
     return await Promise.all(

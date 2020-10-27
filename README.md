@@ -183,17 +183,15 @@ rmrf: add dryRun option
 update dependencies
 
 #### 0.0.9 - unreleased
-remove unused imports from getDirectories
-
-#### 0.0.10
+* remove unused imports from getDirectories
 * getDirectories and getFiles now accept a number as second argument.
+
 ```
 // if a number is given instead of true/false, then this is the depth of recursion.
-getFiles(directory, 2)
-
+getFiles(directory, 2) // two levels down
 ```
 
-#### 0.0.11 - unreleased
+#### 0.0.10 - unreleased
 ...
 
 

@@ -1,19 +1,22 @@
+import path from 'path'
+
 import is from '@magic/types'
 import deep from '@magic/deep'
 import error from '@magic/error'
 
 import { fs } from './fs.mjs'
+
 import { getFilePath } from './getFilePath.mjs'
 
-const libName = '@magic/fs.get'
+const libName = '@magic/fs.getDirectories'
 
 export const getDirectories = async (directories, recurse = true, root = false) => {
   if (!is.array(directories) && !is.string(directories)) {
-    throw error(`${libName}Directories: need an array or a string as first argument`, 'E_ARG_TYPE')
+    throw error(`${libName}: need an array or a string as first argument`, 'E_ARG_TYPE')
   }
 
   if (is.empty(directories)) {
-    throw error(`${libName}Directories: first argument can not be empty`, 'E_ARG_EMPTY')
+    throw error(`${libName}: first argument can not be empty`, 'E_ARG_EMPTY')
   }
 
   try {
@@ -27,6 +30,14 @@ export const getDirectories = async (directories, recurse = true, root = false) 
 
     if (!root) {
       root = directories
+    }
+
+    const currentDirDepth = directories.replace(root, '').split(path.sep).length
+
+    if (is.number(recurse)) {
+      if (currentDirDepth - 1 > recurse) {
+        return []
+      }
     }
 
     const dirContent = await fs.readdir(directories)

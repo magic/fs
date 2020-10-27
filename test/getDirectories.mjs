@@ -16,6 +16,7 @@ const expectedDirsRecursive = [
   path.join(process.cwd(), '.__test__dirs_recursive', 'test2'),
   path.join(process.cwd(), '.__test__dirs_recursive', 'test2', 'deep'),
   path.join(process.cwd(), '.__test__dirs_recursive', 'test2', 'deep', 'deeper'),
+  path.join(process.cwd(), '.__test__dirs_recursive', 'test2', 'deep', 'deeper', 'evendeeper'),
 ]
 
 const expectedDirs = [

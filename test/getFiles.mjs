@@ -15,6 +15,7 @@ const expectedFilesRecursive = [
   path.join(process.cwd(), '.__test__files_recursive', 'test', 'deep', 'test.js'),
   path.join(process.cwd(), '.__test__files_recursive', 'test.js'),
   path.join(process.cwd(), '.__test__files_recursive', 'test2', 'deep', 'deeper', 'deep.js'),
+  path.join(process.cwd(), '.__test__files_recursive', 'test2', 'deep', 'deeper', 'evendeeper', 'deepest.js'),
   path.join(process.cwd(), '.__test__files_recursive', 'test2', 'deep', 'test2.js'),
 ]
 

@@ -14,12 +14,14 @@ export const createTestDirs = id => async () => {
     path.join(dir, 'test', 'deep', 'test.js'),
     path.join(dir, 'test2', 'deep', 'test2.js'),
     path.join(dir, 'test2', 'deep', 'deeper', 'deep.js'),
+    path.join(dir, 'test2', 'deep', 'deeper', 'evendeeper', 'deepest.js'),
     path.join(dir, 'test.js'),
   ]
 
   await fs.mkdirp(path.join(dir, 'test', 'deep'))
   await fs.mkdirp(path.join(dir, 'test2', 'deep'))
   await fs.mkdirp(path.join(dir, 'test2', 'deep', 'deeper'))
+  await fs.mkdirp(path.join(dir, 'test2', 'deep', 'deeper', 'evendeeper'))
 
   await Promise.all(files.map(async f => await fs.writeFile(f, 't')))
 

@@ -43,5 +43,5 @@ const fns = [
 ]
 
 export default [
-  { fn: Object.keys(fs), expect: is.deep.equal(fns), info: 'test if all expected functions exist' },
+  ...fns.map(fn => ({ fn: typeof fs[fn] === 'function', info: `${fn} is a function` })),
 ]

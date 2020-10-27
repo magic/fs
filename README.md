@@ -106,6 +106,11 @@ const run = async () => {
   // recursive run
   const deepDirectories = await fs.getDirectories(process.cwd(), true)
   console.log(deepDirectories)
+
+  // recursive run with specified depth, 
+  // just pass a number as second argument
+  const deepDirectoriesDepth2 = await fs.getDirectories(process.cwd(), 2)
+  console.log(deepDirectoriesDepth2)
 }
 run()
 ```
@@ -125,6 +130,11 @@ const run = async () => {
   // recursive run
   const deepFiles = await fs.getFiles(process.cwd(), true)
   console.log(deepFiles)
+
+  // recursive run with specified depth, 
+  // just pass a number as second argument
+  const deepDirectoriesDepth2 = await fs.getFiles(process.cwd(), 2)
+  console.log(deepDirectoriesDepth2)
 }
 run()
 ```
@@ -175,7 +185,15 @@ update dependencies
 #### 0.0.9 - unreleased
 remove unused imports from getDirectories
 
-#### 0.0.10 - unreleased
+#### 0.0.10
+* getDirectories and getFiles now accept a number as second argument.
+```
+// if a number is given instead of true/false, then this is the depth of recursion.
+getFiles(directory, 2)
+
+```
+
+#### 0.0.11 - unreleased
 ...
 
 

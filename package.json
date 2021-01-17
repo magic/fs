@@ -42,10 +42,10 @@
     "@magic/test": "0.1.59"
   },
   "dependencies": {
-    "@magic/deep": "0.1.4",
-    "@magic/error": "0.0.7",
-    "@magic/mime-types": "0.0.5",
-    "@magic/types": "0.1.13"
+    "@magic/deep": "0.1.5",
+    "@magic/error": "0.0.8",
+    "@magic/mime-types": "0.0.6",
+    "@magic/types": "0.1.14"
   },
   "files": [
     "src"

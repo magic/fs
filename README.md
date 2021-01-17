@@ -191,7 +191,11 @@ update dependencies
 getFiles(directory, 2) // two levels down
 ```
 
-#### 0.0.10 - unreleased
+#### 0.0.10
+* bump required node version to 14.15.4
+* update dependencies
+
+##### 0.0.11 - unreleased
 ...
 
 

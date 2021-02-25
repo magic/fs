@@ -45,7 +45,7 @@
     "@magic/deep": "0.1.5",
     "@magic/error": "0.0.8",
     "@magic/mime-types": "0.0.7",
-    "@magic/types": "0.1.14"
+    "@magic/types": "0.1.15"
   },
   "files": [
     "src"

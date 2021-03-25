@@ -6,6 +6,7 @@ const readFile = fso.promises.readFile
 const rmdir = fso.promises.rmdir
 
 export const fs = {
+  ...fso,
   ...fso.promises,
   exists: util.promisify(fso.exists),
   readdir: readDir,

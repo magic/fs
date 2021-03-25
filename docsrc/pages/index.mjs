@@ -57,6 +57,7 @@ run()
     li('readfile'),
     li('rmDir'),
   ]),
+
   h4({ id: 'usage-overloads' }, 'export overloads'),
   ul([li('rmdir, rmDir'), li('readfile, readFile'), li('readdir, readDir')]),
 
@@ -140,7 +141,7 @@ console.log(nonFileType, nonFileType === 'txt')
   h2({ id: 'source' }, 'source'),
   p([
     'the source for this page is in the ',
-    Link({ to: 'https://github.com/magic/fs/tree/master/example' }, 'example directory'),
+    Link({ to: 'https://github.com/magic/fs/tree/master/docsrc/' }, 'example directory'),
     ' and gets built and published to github using ',
     Link({ to: 'https://github.com/magic/core' }, '@magic/core'),
   ]),

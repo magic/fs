@@ -198,7 +198,10 @@ getFiles(directory, 2) // two levels down
 ##### 0.0.11
 update dependencies (@magic/mime-types)
 
-##### 0.0.12 - unreleased
+##### 0.0.12 
+export all functions from native fs
+
+##### 0.0.13 - unreleased
 ...
 
 

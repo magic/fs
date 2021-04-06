@@ -10,6 +10,10 @@ import { fs } from './fs.mjs'
 const libName = '@magic/fs.getFiles'
 
 export const getFiles = async (dir, recurse = true, root = false) => {
+  if (recurse === false) {
+    recurse = 1
+  }
+
   if (is.empty(dir)) {
     throw error(`${libName}: dir: first argument can not be empty.`, 'E_ARG_EMPTY')
   }
@@ -32,10 +36,6 @@ using process.cwd: ${process.cwd()}
     } else {
       root = dir
     }
-  }
-
-  if (recurse === false) {
-    recurse = 1
   }
 
   if (is.number(recurse)) {

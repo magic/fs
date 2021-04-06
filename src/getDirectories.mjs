@@ -11,6 +11,10 @@ import { getFilePath } from './getFilePath.mjs'
 const libName = '@magic/fs.getDirectories'
 
 export const getDirectories = async (directories, recurse = true, root = false) => {
+  if (recurse === false) {
+    recurse = 1
+  }
+
   if (!is.array(directories) && !is.string(directories)) {
     throw error(`${libName}: need an array or a string as first argument`, 'E_ARG_TYPE')
   }

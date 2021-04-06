@@ -9,9 +9,6 @@ import { fs } from './fs.mjs'
 
 const libName = '@magic/fs.getFiles'
 
-// recursively find all files in a directory.
-// returns array of paths relative to dir
-
 export const getFiles = async (dir, recurse = true, root = false) => {
   if (is.empty(dir)) {
     throw error(`${libName}: dir: first argument can not be empty.`, 'E_ARG_EMPTY')
@@ -21,8 +18,24 @@ export const getFiles = async (dir, recurse = true, root = false) => {
     throw error(`${libName}: dir: first argument must be a string.`, 'E_ARG_TYPE')
   }
 
-  if (!root) {
-    root = dir
+  if (is.empty(root)) {
+    if (is.array(dir) && is.number(recurse)) {
+      const warning = `
+${libName}: dir is an array and depth is ${recurse}, 
+root directory has to be passed: fs.getDirectories(dirs, recurse, root)
+using process.cwd: ${process.cwd()}
+`.trim()
+
+      log.warn(warning)
+
+      root = process.cwd()
+    } else {
+      root = dir
+    }
+  }
+
+  if (recurse === false) {
+    recurse = 1
   }
 
   if (is.number(recurse)) {

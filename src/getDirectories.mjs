@@ -19,6 +19,22 @@ export const getDirectories = async (directories, recurse = true, root = false) 
     throw error(`${libName}: first argument can not be empty`, 'E_ARG_EMPTY')
   }
 
+  if (is.empty(root)) {
+    if (is.array(directories) && is.number(recurse)) {
+      const warning = `
+${libName}: dir is an array and depth is ${recurse},
+root directory has to be passed: fs.getDirectories(dirs, recurse, root)
+using process.cwd: ${process.cwd()}
+`.trim()
+
+      log.warn(warning)
+
+      root = process.cwd()
+    } else {
+      root = directories
+    }
+  }
+
   try {
     if (is.array(directories)) {
       const dirs = await Promise.all(

@@ -22,20 +22,8 @@ export const getFiles = async (dir, recurse = true, root = false) => {
     throw error(`${libName}: dir: first argument must be a string.`, 'E_ARG_TYPE')
   }
 
-  if (is.empty(root)) {
-    if (is.array(dir) && is.number(recurse)) {
-      const warning = `
-${libName}: dir is an array and depth is ${recurse}, 
-root directory has to be passed: fs.getDirectories(dirs, recurse, root)
-using process.cwd: ${process.cwd()}
-`.trim()
-
-      log.warn(warning)
-
-      root = process.cwd()
-    } else {
-      root = dir
-    }
+  if (is.empty(root) && is.number(recurse)) {
+    root = dir
   }
 
   if (is.number(recurse)) {

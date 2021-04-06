@@ -34,9 +34,7 @@ export const getDirectories = async (dir, recurse = true, root = false) => {
 
   try {
     if (is.array(dir)) {
-      const dirs = await Promise.all(
-        dir.map(async f => await getDirectories(f, recurse, root)),
-      )
+      const dirs = await Promise.all(dir.map(async f => await getDirectories(f, recurse, root)))
 
       return deep.flatten(...dirs).filter(a => a)
     }
@@ -51,37 +49,36 @@ export const getDirectories = async (dir, recurse = true, root = false) => {
     const dirContent = await fs.readdir(dir)
 
     const dirs = await Promise.all(
-      dirContent
-        .map(async file => {
-          if (!is.string(file)) {
-            throw error(`${libName}: path was not a string: ${file}`, 'E_ARG_TYPE')
+      dirContent.map(async file => {
+        if (!is.string(file)) {
+          throw error(`${libName}: path was not a string: ${file}`, 'E_ARG_TYPE')
+        }
+
+        let filePath = await getFilePath(getDirectories, dir, file, recurse, root)
+
+        if (filePath) {
+          if (!is.array(filePath)) {
+            filePath = [filePath]
           }
 
-          let filePath = await getFilePath(getDirectories, dir, file, recurse, root)
+          const files = await Promise.all(
+            filePath.map(async file => {
+              if (!is.string(file)) {
+                throw error(`${libName}: path was not a string: ${file}`, 'E_ARG_TYPE')
+              }
 
-          if (filePath) {
-            if (!is.array(filePath)) {
-              filePath = [filePath]
-            }
+              const stat = await fs.stat(file)
+              if (stat.isDirectory()) {
+                return filePath
+              }
+            }),
+          )
 
-            const files = await Promise.all(
-              filePath.map(async file => {
-                if (!is.string(file)) {
-                  throw error(`${libName}: path was not a string: ${file}`, 'E_ARG_TYPE')
-                }
+          return files
+        }
 
-                const stat = await fs.stat(file)
-                if (stat.isDirectory()) {
-                  return filePath
-                }
-              }),
-            )
-
-            return files
-          }
-
-          return
-        }),
+        return
+      }),
     )
 
     const finalized = deep.flatten(dir, dirs).filter(a => a)

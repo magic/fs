@@ -122,17 +122,11 @@ export default [
   {
     // make sure we default the root dir to process.cwd()
     fn: async () => await fs.getDirectories(['test'], false),
-    expect: [
-      "test",
-      "test/.lib"
-    ],
+    expect: ['test', 'test/.lib'],
   },
   {
     // make sure we default the root dir to process.cwd()
     fn: async () => await fs.getDirectories('test', 22),
-    expect: [
-      "test",
-      "test/.lib"
-    ],
+    expect: ['test', 'test/.lib'],
   },
 ]

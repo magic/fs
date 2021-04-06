@@ -4,10 +4,9 @@ import fs from '../../src/index.mjs'
 
 const dirName = path.join(process.cwd(), '.__test__')
 
-export const createTestDirs = id => async () => {
-  let dir = id
+export const createTestDirs = dir => async () => {
   if (!path.isAbsolute(dir)) {
-    dir = `${dirName}${id}`
+    dir = `${dirName}${dir}`
   }
 
   const files = [

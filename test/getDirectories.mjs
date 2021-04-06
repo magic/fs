@@ -119,4 +119,20 @@ export default [
     expect: t => t.name === 'E_ARG_EMPTY',
     info: 'returns error E_ARG_EMPTY if given empty path string',
   },
+  {
+    // make sure we default the root dir to process.cwd()
+    fn: async () => await fs.getDirectories(['test'], false),
+    expect: [
+      "test",
+      "test/.lib"
+    ],
+  },
+  {
+    // make sure we default the root dir to process.cwd()
+    fn: async () => await fs.getDirectories('test', 22),
+    expect: [
+      "test",
+      "test/.lib"
+    ],
+  },
 ]

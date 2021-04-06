@@ -11,44 +11,44 @@ import { getFilePath } from './getFilePath.mjs'
 
 const libName = '@magic/fs.getDirectories'
 
-export const getDirectories = async (directories, recurse = true, root = false) => {
+export const getDirectories = async (dir, recurse = true, root = false) => {
   if (recurse === false) {
     recurse = 1
   }
 
-  if (!is.array(directories) && !is.string(directories)) {
+  if (!is.array(dir) && !is.string(dir)) {
     throw error(`${libName}: need an array or a string as first argument`, 'E_ARG_TYPE')
   }
 
-  if (is.empty(directories)) {
+  if (is.empty(dir)) {
     throw error(`${libName}: first argument can not be empty`, 'E_ARG_EMPTY')
   }
 
   if (is.empty(root)) {
-    if (is.string(directories)) {
-      root = directories
+    if (is.string(dir)) {
+      root = dir
     } else {
       root = process.cwd()
     }
   }
 
   try {
-    if (is.array(directories)) {
+    if (is.array(dir)) {
       const dirs = await Promise.all(
-        directories.map(async f => await getDirectories(f, recurse, root)),
+        dir.map(async f => await getDirectories(f, recurse, root)),
       )
 
       return deep.flatten(...dirs).filter(a => a)
     }
 
     if (is.number(recurse)) {
-      const currentDepth = directories.replace(root, '').split(path.sep).length
+      const currentDepth = dir.replace(root, '').split(path.sep).length
       if (currentDepth - 1 > recurse) {
         return []
       }
     }
 
-    const dirContent = await fs.readdir(directories)
+    const dirContent = await fs.readdir(dir)
 
     const dirs = await Promise.all(
       dirContent
@@ -57,7 +57,7 @@ export const getDirectories = async (directories, recurse = true, root = false) 
             throw error(`${libName}: path was not a string: ${file}`, 'E_ARG_TYPE')
           }
 
-          let filePath = await getFilePath(getDirectories, directories, file, recurse, root)
+          let filePath = await getFilePath(getDirectories, dir, file, recurse, root)
 
           if (filePath) {
             if (!is.array(filePath)) {
@@ -84,7 +84,7 @@ export const getDirectories = async (directories, recurse = true, root = false) 
         }),
     )
 
-    const finalized = deep.flatten(directories, dirs).filter(a => a)
+    const finalized = deep.flatten(dir, dirs).filter(a => a)
 
     return Array.from(new Set(finalized))
   } catch (e) {

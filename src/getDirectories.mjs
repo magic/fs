@@ -52,7 +52,6 @@ export const getDirectories = async (directories, recurse = true, root = false) 
 
     const dirs = await Promise.all(
       dirContent
-        // .filter(async f => await exists(f))
         .map(async file => {
           if (!is.string(file)) {
             throw error(`${libName}: path was not a string: ${file}`, 'E_ARG_TYPE')

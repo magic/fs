@@ -3,6 +3,7 @@ import path from 'path'
 import is from '@magic/types'
 import deep from '@magic/deep'
 import error from '@magic/error'
+import log from '@magic/log'
 
 import { fs } from './fs.mjs'
 
@@ -24,18 +25,10 @@ export const getDirectories = async (directories, recurse = true, root = false) 
   }
 
   if (is.empty(root)) {
-    if (is.array(directories) && is.number(recurse)) {
-      const warning = `
-${libName}: dir is an array and depth is ${recurse},
-root directory has to be passed: fs.getDirectories(dirs, recurse, root)
-using process.cwd: ${process.cwd()}
-`.trim()
-
-      log.warn(warning)
-
-      root = process.cwd()
-    } else {
+    if (is.string(directories)) {
       root = directories
+    } else {
+      root = process.cwd()
     }
   }
 
@@ -46,10 +39,6 @@ using process.cwd: ${process.cwd()}
       )
 
       return deep.flatten(...dirs).filter(a => a)
-    }
-
-    if (!root) {
-      root = directories
     }
 
     if (is.number(recurse)) {

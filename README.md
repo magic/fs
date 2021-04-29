@@ -201,7 +201,11 @@ update dependencies (@magic/mime-types)
 ##### 0.0.12 
 export all functions from native fs
 
-##### 0.0.13 - unreleased
+##### 0.0.13
+* getDirectories, getFiles: default root to process.cwd() if first argument is an array and root is not passed
+* update dependencies
+
+##### 0.0.14 - unreleased
 ...
 
 

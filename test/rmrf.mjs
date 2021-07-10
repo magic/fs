@@ -1,5 +1,5 @@
 import path from 'path'
-import { is, tryCatch } from '@magic/test'
+import { tryCatch } from '@magic/test'
 
 import fs from '../src/index.mjs'
 

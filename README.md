@@ -208,7 +208,10 @@ export all functions from native fs
 ##### 0.0.14
 update dependencies (@magic/mime-types)
 
-##### 0.0.15 - unreleased
+##### 0.0.15
+update @magic/types to avoid circular dependency
+
+##### 0.0.16 - unreleased
 ...
 
 

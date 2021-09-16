@@ -2,7 +2,7 @@ export const View = state => [
   h1(state.title),
   p(state.description),
 
-  GitBadges('magic/fs'),
+  GitBadges('@magic/fs'),
 
   h3({ id: 'install' }, 'install'),
   p('be in a nodejs project'),
@@ -94,7 +94,7 @@ const run = async () => {
   const deepDirectories = await fs.getDirectories(process.cwd(), true)
   console.log(deepDirectories)
 
-  // recursive run with specified depth, 
+  // recursive run with specified depth,
   // just pass a number as second argument
   const deepDirectoriesDepth2 = await fs.getDirectories(process.cwd(), 2)
   console.log(deepDirectoriesDepth2)
@@ -117,7 +117,7 @@ const run = async () => {
   const deepFiles = await fs.getFiles(process.cwd(), true)
   console.log(deepFiles)
 
-  // recursive run with specified depth, 
+  // recursive run with specified depth,
   // just pass a number as second argument
   const getFilesDepth2 = await fs.getFiles(process.cwd(), 2)
   console.log(getFilesDepth2)

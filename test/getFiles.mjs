@@ -102,4 +102,10 @@ export default [
     expect: t => t.name === 'E_ARG_TYPE',
     info: 'throws with E_ARG_TYPE if argument is wrong type',
   },
+
+  {
+    fn: async () => await fs.getFiles('non_existing_path', true, false),
+    expect: is.array,
+    info: 'test deprecation warning',
+  },
 ]

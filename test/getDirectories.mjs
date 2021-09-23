@@ -129,4 +129,17 @@ export default [
     fn: async () => await fs.getDirectories('test', 22),
     expect: ['test', 'test/.lib'],
   },
+  {
+    fn: async () => await fs.getDirectories('test', { depth: 22 }),
+    expect: ['test', 'test/.lib'],
+  },
+  {
+    fn: async () => await fs.getDirectories('test', { noRoot: true }),
+    expect: ['test/.lib'],
+  },
+  {
+    // test deprecation warning
+    fn: async () => await fs.getDirectories('test', true, false),
+    expect: ['test', 'test/.lib'],
+  },
 ]

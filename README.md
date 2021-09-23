@@ -100,17 +100,23 @@ import fs from '@magic/fs'
 
 const run = async () => {
   // first level directories
-  const directories = await fs.getDirectories(process.cwd())
+  const directories = await fs.getDirectories(process.cwd(), false)
   console.log(directories)
 
+  // first level again
+  const dirs = await fs.getDirectories(process.cwd(), { depth: false })
+
   // recursive run
-  const deepDirectories = await fs.getDirectories(process.cwd(), true)
+  const deepDirectories = await fs.getDirectories(process.cwd())
   console.log(deepDirectories)
 
-  // recursive run with specified depth, 
-  // just pass a number as second argument
-  const deepDirectoriesDepth2 = await fs.getDirectories(process.cwd(), 2)
+  // recursive run with specified depth
+  const deepDirectoriesDepth2 = await fs.getDirectories(process.cwd(), { depth: 2 })
   console.log(deepDirectoriesDepth2)
+
+  // use /some/dir as root instead of process.cwd()
+  const deepDirWithRoot = await fs.getDirectories(process.cwd(), { depth: true, root: '/some/dir' })
+  console.log(deepDirWithRoot)
 }
 run()
 ```
@@ -128,13 +134,12 @@ const run = async () => {
   console.log(files)
 
   // recursive run
-  const deepFiles = await fs.getFiles(process.cwd(), true)
+  const deepFiles = await fs.getFiles(process.cwd(), { depth: true })
   console.log(deepFiles)
 
-  // recursive run with specified depth, 
-  // just pass a number as second argument
-  const deepDirectoriesDepth2 = await fs.getFiles(process.cwd(), 2)
-  console.log(deepDirectoriesDepth2)
+  // recursive run with specified depth,
+  const deepFilesDepth2 = await fs.getFiles(process.cwd(), { depth: 2 })
+  console.log(deepFilesDepth2)
 }
 run()
 ```
@@ -179,10 +184,10 @@ bump required node version to 14.2.0
 #### 0.0.7
 rmrf: add dryRun option
 
-#### 0.0.8 
+#### 0.0.8
 update dependencies
 
-#### 0.0.9 - unreleased
+#### 0.0.9
 * remove unused imports from getDirectories
 * getDirectories and getFiles now accept a number as second argument.
 
@@ -198,7 +203,7 @@ getFiles(directory, 2) // two levels down
 ##### 0.0.11
 update dependencies (@magic/mime-types)
 
-##### 0.0.12 
+##### 0.0.12
 export all functions from native fs
 
 ##### 0.0.13
@@ -211,7 +216,10 @@ update dependencies (@magic/mime-types)
 ##### 0.0.15
 update @magic/types to avoid circular dependency
 
-##### 0.0.16 - unreleased
+##### 0.0.16
+add deprecation warning for calls to fs.getDirectories, fs.getFilePath and fs.getFiles that do not use an options object
+
+##### 0.0.17 - unreleased
 ...
 
 

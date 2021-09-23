@@ -11,9 +11,24 @@ import { getFilePath } from './getFilePath.mjs'
 
 const libName = '@magic/fs.getDirectories'
 
-export const getDirectories = async (dir, recurse = true, root = false) => {
-  if (recurse === false) {
-    recurse = 1
+export const getDirectories = async (dir, depth = {}, root = 'deprecated') => {
+  if (root !== 'deprecated') {
+    log.warn('E_DEPRECATED', 'you have used fs.getDirectories with a third argument.')
+    log.info('Please use the new syntax instead:')
+    log.info('fs.getDirectories(dir, { root: true })')
+  } else {
+    root = false
+  }
+
+  let noRoot = false
+  if (!is.empty(depth) && is.objectNative(depth)) {
+    root = root || depth?.root
+    noRoot = depth?.noRoot
+    depth = depth?.depth
+  }
+
+  if (depth === false) {
+    depth = 1
   }
 
   if (!is.array(dir) && !is.string(dir)) {
@@ -34,14 +49,16 @@ export const getDirectories = async (dir, recurse = true, root = false) => {
 
   try {
     if (is.array(dir)) {
-      const dirs = await Promise.all(dir.map(async f => await getDirectories(f, recurse, root)))
+      const dirs = await Promise.all(
+        dir.map(async f => await getDirectories(f, { depth, root, noRoot })),
+      )
 
       return deep.flatten(...dirs).filter(a => a)
     }
 
-    if (is.number(recurse)) {
+    if (is.number(depth)) {
       const currentDepth = dir.replace(root, '').split(path.sep).length
-      if (currentDepth - 1 > recurse) {
+      if (currentDepth - 1 > depth) {
         return []
       }
     }
@@ -54,7 +71,7 @@ export const getDirectories = async (dir, recurse = true, root = false) => {
           throw error(`${libName}: path was not a string: ${file}`, 'E_ARG_TYPE')
         }
 
-        let filePath = await getFilePath(getDirectories, dir, file, recurse, root)
+        let filePath = await getFilePath(getDirectories, dir, file, { depth, root })
 
         if (filePath) {
           if (!is.array(filePath)) {
@@ -81,7 +98,12 @@ export const getDirectories = async (dir, recurse = true, root = false) => {
       }),
     )
 
-    const finalized = deep.flatten(dir, dirs).filter(a => a)
+    let finalDirs = dirs.filter(a => a)
+    if (!noRoot) {
+      finalDirs = [dir, ...finalDirs]
+    }
+
+    const finalized = deep.flatten(finalDirs).filter(a => a)
 
     return Array.from(new Set(finalized))
   } catch (e) {

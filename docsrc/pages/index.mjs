@@ -87,16 +87,15 @@ import fs from '@magic/fs'
 
 const run = async () => {
   // first level directories
-  const directories = await fs.getDirectories(process.cwd())
+  const directories = await fs.getDirectories(process.cwd(), { depth: false })
   console.log(directories)
 
   // recursive run
-  const deepDirectories = await fs.getDirectories(process.cwd(), true)
+  const deepDirectories = await fs.getDirectories(process.cwd())
   console.log(deepDirectories)
 
-  // recursive run with specified depth,
-  // just pass a number as second argument
-  const deepDirectoriesDepth2 = await fs.getDirectories(process.cwd(), 2)
+  // recursive run with specified depth
+  const deepDirectoriesDepth2 = await fs.getDirectories(process.cwd(), { depth: 2 })
   console.log(deepDirectoriesDepth2)
 }
 run()
@@ -110,16 +109,15 @@ import fs from '@magic/fs'
 
 const run = async () => {
   // first level files
-  const files = await fs.getFiles(process.cwd())
+  const files = await fs.getFiles(process.cwd(), { depth: false })
   console.log(files)
 
   // recursive run
-  const deepFiles = await fs.getFiles(process.cwd(), true)
+  const deepFiles = await fs.getFiles(process.cwd())
   console.log(deepFiles)
 
-  // recursive run with specified depth,
-  // just pass a number as second argument
-  const getFilesDepth2 = await fs.getFiles(process.cwd(), 2)
+  // recursive run with specified depth
+  const getFilesDepth2 = await fs.getFiles(process.cwd(), { depth: 2 })
   console.log(getFilesDepth2)
 }
 run()

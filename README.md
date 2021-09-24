@@ -219,7 +219,10 @@ update @magic/types to avoid circular dependency
 ##### 0.0.16
 add deprecation warning for calls to fs.getDirectories, fs.getFilePath and fs.getFiles that do not use an options object
 
-##### 0.0.17 - unreleased
+##### 0.0.17
+update dependencies
+
+##### 0.0.18 - unreleased
 ...
 
 

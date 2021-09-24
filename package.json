@@ -44,7 +44,7 @@
   "dependencies": {
     "@magic/deep": "0.1.7",
     "@magic/error": "0.0.10",
-    "@magic/mime-types": "0.0.10",
+    "@magic/mime-types": "0.0.11",
     "@magic/types": "0.1.16"
   },
   "files": [

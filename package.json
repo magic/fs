@@ -1,6 +1,6 @@
 {
   "name": "@magic/fs",
-  "version": "0.0.17",
+  "version": "0.0.18",
   "author": "Wizards & Witches",
   "description": "nodejs fs promises + goodies",
   "license": "AGPL-3.0",

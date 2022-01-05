@@ -37,13 +37,14 @@
     "@magic-modules/no-spy": "0.0.6",
     "@magic-modules/pre": "0.0.11",
     "@magic-themes/docs": "0.0.14",
-    "@magic/core": "0.0.133",
-    "@magic/format": "0.0.35",
-    "@magic/test": "0.2.0"
+    "@magic/core": "0.0.134",
+    "@magic/format": "0.0.37",
+    "@magic/test": "0.2.4"
   },
   "dependencies": {
     "@magic/deep": "0.1.10",
     "@magic/error": "0.0.12",
+    "@magic/log": "0.1.13",
     "@magic/mime-types": "0.0.13",
     "@magic/types": "0.1.18"
   },

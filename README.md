@@ -231,7 +231,11 @@ update dependencies
 ##### 0.0.20
 update dependencies
 
-##### 0.0.21 - unreleased
+##### 0.0.21
+* add missing @magic/fs dependency
+* update dependencies
+
+##### 0.0.22 - unreleased
 ...
 
 

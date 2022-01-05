@@ -1,6 +1,6 @@
-import { version, log } from '@magic/test'
+import { is, version, log } from '@magic/test'
 
-import { default as fso } from 'fs'
+import fso from 'fs'
 
 import fs from '../src/index.mjs'
 
@@ -228,7 +228,7 @@ const fns = [
 export default [
   ...version(fs, spec),
   ...fns.map(fn => ({
-    fn: !fso[fn] || typeof fs[fn] === typeof fso[fn],
+    fn: !fso[fn] || is.sameType(fs[fn], fso[fn]),
     info: `${fn} is a ${typeof fs[fn]}`,
   })),
   {

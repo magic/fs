@@ -14,13 +14,18 @@ export const getFiles = async (dir, depth = true, root = 'deprecated') => {
   if (root !== 'deprecated') {
     log.warn('E_DEPRECATED', 'you have used fs.getFiles with a third argument.')
     log.info('Please use the new syntax instead:')
-    log.info('fs.getFiles(dir, { depth: true, root: false })')
+    log.info("fs.getFiles(dir, { depth: true, root: false, extension: 'md' })")
   } else {
     root = false
   }
 
+  let extension
+
   if (!is.empty(depth) && is.objectNative(depth)) {
     root = root || depth?.root
+    extension = depth?.extension
+
+    /* make sure this is the last action in this if  */
     depth = depth?.depth
   }
 
@@ -57,6 +62,7 @@ export const getFiles = async (dir, depth = true, root = 'deprecated') => {
       deep
         .flatten(files)
         .filter(a => a)
+        .filter(a => !extension || a.endsWith(extension))
         .filter(async f => {
           const stat = await fs.stat(f)
           return stat.isFile()

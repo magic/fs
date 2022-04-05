@@ -15,6 +15,7 @@ export const createTestDirs = dir => async () => {
     path.join(dir, 'test2', 'deep', 'deeper', 'deep.js'),
     path.join(dir, 'test2', 'deep', 'deeper', 'evendeeper', 'deepest.js'),
     path.join(dir, 'test.js'),
+    path.join(dir, 'test.md'),
   ]
 
   await fs.mkdirp(path.join(dir, 'test', 'deep'))

@@ -239,9 +239,15 @@ update dependencies
 update dependencies
 
 ##### 0.0.23
+update dependencies
+
+##### 0.0.24
 getFiles: allow files to be filtered by extension, using the .extension key of the second parameter
 
-##### 0.0.24 - unreleased
+##### 0.0.25
+update dependencies
+
+##### 0.0.26 - unreleased
 ...
 
 

@@ -86,19 +86,11 @@ const expectedFilesRecursiveDepth3OptionsObject = [
 ]
 
 const expectedFilesWithExtensionMd = [
-  path.join(
-    process.cwd(),
-    '.__test__files_extension_md',
-    'test.md',
-  ),
+  path.join(process.cwd(), '.__test__files_extension_md', 'test.md'),
 ]
 
 const expectedFilesWithExtensionJs = [
-  path.join(
-    process.cwd(),
-    '.__test__files_extension_js',
-    'test.js',
-  ),
+  path.join(process.cwd(), '.__test__files_extension_js', 'test.js'),
 ]
 
 export default [

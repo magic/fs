@@ -247,7 +247,10 @@ getFiles: allow files to be filtered by extension, using the .extension key of t
 ##### 0.0.25
 update dependencies
 
-##### 0.0.26 - unreleased
+##### 0.0.26
+update dependencies
+
+##### 0.0.27 - unreleased
 ...
 
 

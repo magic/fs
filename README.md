@@ -253,7 +253,10 @@ update dependencies
 ##### 0.0.27
 update dependencies
 
-##### 0.0.28 - unreleased
+##### 0.0.28
+update dependencies
+
+##### 0.0.29 - unreleased
 ...
 
 

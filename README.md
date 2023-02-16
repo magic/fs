@@ -12,12 +12,15 @@ exports all fs.promises + exists + mkdirp + rmrf + getFiles + getDirs functions.
 [html-docs](https://magic.github.io/fs)
 
 ### installation
+
 be in a nodejs project
+
 ```bash
 npm install @magic/fs
 ```
 
 ### import
+
 ```javascript
 import fs from '@magic/fs'
 
@@ -31,7 +34,9 @@ run()
 ```
 
 ### promises
+
 promises from fs:
+
 ```
 access
 copyFile
@@ -65,6 +70,7 @@ rmDir
 ```
 
 ### export overloads:
+
 ```javascript
 rmdir, rmDir
 readfile, readFile
@@ -74,6 +80,7 @@ readdir, readDir
 ### Additional functions:
 
 #### mkdirp
+
 same as mkdir -p on unix
 
 ```javascript
@@ -81,17 +88,21 @@ await fs.mkdirp('./path/to/dir')
 ```
 
 #### rmrf
+
 same as rm -rf on unix.
 
 **will not work outside process.cwd()**
+
 ```javascript
 await fs.rmrf('./path/to/dir')
 ```
 
 #### exists
+
 same as fs.exists, but promisified and ready for esmodules.
 
 #### getDirectories
+
 get a list of directories in a directory,
 recursively.
 
@@ -122,6 +133,7 @@ run()
 ```
 
 #### getFiles
+
 get a list of files in a directory,
 recursively.
 
@@ -145,6 +157,7 @@ run()
 ```
 
 #### getFileType
+
 get the file type of a file,
 based on extension,
 and defaulting to "txt"
@@ -157,39 +170,47 @@ console.log(fileType, fileType === 'html')
 
 const nonFileType = fs.getFileType()
 console.log(nonFileType, nonFileType === 'txt')
-
 ```
 
 ### changelog
 
 #### 0.0.1
+
 first release
 
 #### 0.0.2
-* bump required node version
-* update dependencies
+
+- bump required node version
+- update dependencies
 
 #### 0.0.3
+
 better error messages
 
 #### 0.0.4
+
 rmrf returns true if directory does not exist.
 
 #### 0.0.5
+
 use @magic/mime-types to export contentTypes
 
 #### 0.0.6
+
 bump required node version to 14.2.0
 
 #### 0.0.7
+
 rmrf: add dryRun option
 
 #### 0.0.8
+
 update dependencies
 
 #### 0.0.9
-* remove unused imports from getDirectories
-* getDirectories and getFiles now accept a number as second argument.
+
+- remove unused imports from getDirectories
+- getDirectories and getFiles now accept a number as second argument.
 
 ```
 // if a number is given instead of true/false, then this is the depth of recursion.
@@ -197,68 +218,87 @@ getFiles(directory, 2) // two levels down
 ```
 
 #### 0.0.10
-* bump required node version to 14.15.4
-* update dependencies
+
+- bump required node version to 14.15.4
+- update dependencies
 
 ##### 0.0.11
+
 update dependencies (@magic/mime-types)
 
 ##### 0.0.12
+
 export all functions from native fs
 
 ##### 0.0.13
-* getDirectories, getFiles: default root to process.cwd() if first argument is an array and root is not passed
-* update dependencies
+
+- getDirectories, getFiles: default root to process.cwd() if first argument is an array and root is not passed
+- update dependencies
 
 ##### 0.0.14
+
 update dependencies (@magic/mime-types)
 
 ##### 0.0.15
+
 update @magic/types to avoid circular dependency
 
 ##### 0.0.16
+
 add deprecation warning for calls to fs.getDirectories, fs.getFilePath and fs.getFiles that do not use an options object
 
 ##### 0.0.17
+
 update dependencies
 
 ##### 0.0.18
+
 update mime-types
 
 ##### 0.0.19
+
 update dependencies
 
 ##### 0.0.20
+
 update dependencies
 
 ##### 0.0.21
-* add missing @magic/fs dependency
-* update dependencies
+
+- add missing @magic/fs dependency
+- update dependencies
 
 ##### 0.0.22
+
 update dependencies
 
 ##### 0.0.23
+
 update dependencies
 
 ##### 0.0.24
+
 getFiles: allow files to be filtered by extension, using the .extension key of the second parameter
 
 ##### 0.0.25
+
 update dependencies
 
 ##### 0.0.26
+
 update dependencies
 
 ##### 0.0.27
+
 update dependencies
 
 ##### 0.0.28
+
 update dependencies
 
 ##### 0.0.29 - unreleased
-...
 
+...
 
 [npm-image]: https://img.shields.io/npm/v/@magic/fs.svg
 [npm-url]: https://www.npmjs.com/package/@magic/fs

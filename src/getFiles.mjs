@@ -33,8 +33,15 @@ export const getFiles = async (dir, depth = true, root = 'deprecated') => {
     root = root || depth?.root
     extension = depth?.extension
 
-    maxDepth = depth?.depth || depth?.maxDepth
-    minDepth = depth.minDepth
+    if (depth.hasOwnProperty('depth')) {
+      maxDepth = depth?.depth
+    } else if (depth.hasOwnProperty('maxDepth')) {
+      maxDepth = depth.maxDepth
+    }
+
+    if (depth.hasOwnProperty('minDepth')) {
+      minDepth = depth.minDepth
+    }
   }
 
   if (maxDepth === false) {

@@ -84,20 +84,9 @@ export const getFiles = async (dir, depth = true, root = 'deprecated') => {
          */
         .filter(a => !extension || a.endsWith(extension))
         /*
-         * filter nonfiles
-         */
-        .filter(async f => {
-          const stat = await fs.stat(f)
-          return stat.isFile()
-        })
-        /*
          * filter files if depth is smaller than minDepth
          */
         .filter(file => {
-          if (!file) {
-            return false
-          }
-
           if (is.number(minDepth)) {
             const currentDepth = file.replace(root, '').split(path.sep).length
 
@@ -105,6 +94,13 @@ export const getFiles = async (dir, depth = true, root = 'deprecated') => {
           }
 
           return true
+        })
+        /*
+         * filter nonfiles
+         */
+        .filter(async f => {
+          const stat = await fs.stat(f)
+          return stat.isFile()
         }),
     )
   } catch (e) {

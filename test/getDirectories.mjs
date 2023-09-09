@@ -48,6 +48,12 @@ const expectedDirsDepth3 = [
   path.join(process.cwd(), '.__test__dirs_recursive_depth_3', 'test2', 'deep', 'deeper'),
 ]
 
+const expectedDirsDepthMax3Min2 = [
+  path.join(process.cwd(), '.__test__dirs_recursive_depth_3', 'test', 'deep'),
+  path.join(process.cwd(), '.__test__dirs_recursive_depth_3', 'test2', 'deep'),
+  path.join(process.cwd(), '.__test__dirs_recursive_depth_3', 'test2', 'deep', 'deeper'),
+]
+
 export default [
   {
     fn: async () => await fs.getDirectories(`${dirName}dirs_recursive`),
@@ -72,6 +78,12 @@ export default [
     before: createTestDirs('dirs_recursive_depth_3'),
     expect: expectedDirsDepth3,
     info: 'finds all directories in directory. recursively but with depth 3',
+  },
+  {
+    fn: async () => await fs.getDirectories(`${dirName}dirs_recursive_depth_3`, { maxDepth: 3, minDepth: 2 }),
+    before: createTestDirs('dirs_recursive_depth_3'),
+    expect: expectedDirsDepthMax3Min2,
+    info: 'finds all directories in directory. recursively but with maxDepth 3 and minDepth 2',
   },
   {
     fn: async () => await fs.getDirectories(`${dirName}dirs_norecurse`, false),
@@ -121,25 +133,20 @@ export default [
   },
   {
     // make sure we default the root dir to process.cwd()
-    fn: async () => await fs.getDirectories(['test'], false),
+    fn: async () => await fs.getDirectories(['test']),
     expect: ['test', 'test/.lib'],
+    info: 'relative dirs work in arrays',
   },
   {
     // make sure we default the root dir to process.cwd()
     fn: async () => await fs.getDirectories('test', 22),
     expect: ['test', 'test/.lib'],
-  },
-  {
-    fn: async () => await fs.getDirectories('test', { depth: 22 }),
-    expect: ['test', 'test/.lib'],
-  },
-  {
-    fn: async () => await fs.getDirectories('test', { noRoot: true }),
-    expect: ['test/.lib'],
+    info: 'default root dir is process.cwd and relative paths work',
   },
   {
     // test deprecation warning
     fn: async () => await fs.getDirectories('test', true, false),
     expect: ['test', 'test/.lib'],
+    info: 'test deprecation warning',
   },
 ]

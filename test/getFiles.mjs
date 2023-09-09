@@ -54,8 +54,14 @@ const expectedFilesRecursiveDepth3 = [
     'deep',
     'deeper',
     'deep.js',
-  ),
-  path.join(process.cwd(), '.__test__files_recursive_depth_3', 'test2', 'deep', 'test2.js'),
+    ),
+    path.join(process.cwd(), '.__test__files_recursive_depth_3', 'test2', 'deep', 'test2.js'),
+  ]
+
+const expectedFilesRecursiveDepthMax3Min2 = [
+  path.join(process.cwd(), '.__test__files_recursive_depth_3', 'test','deep','test.js'),
+  path.join(process.cwd(), '.__test__files_recursive_depth_3','test2','deep','deeper','deep.js'),
+  path.join(process.cwd(), '.__test__files_recursive_depth_3','test2','deep','test2.js')
 ]
 
 const expectedFilesRecursiveDepth3OptionsObject = [
@@ -123,6 +129,12 @@ export default [
     before: createTestDirs('files_recursive_depth_3'),
     expect: expectedFilesRecursiveDepth3,
     info: 'finds all files in directory. recursively, but for depth 3',
+  },
+  {
+    fn: async () => await fs.getFiles(`${dirName}files_recursive_depth_3`, { maxDepth: 3, minDepth: 2 }),
+    before: createTestDirs('files_recursive_depth_3'),
+    expect: expectedFilesRecursiveDepthMax3Min2,
+    info: 'finds all files in directory. recursively, but for maxDepth 3 and minDepth 2',
   },
   {
     fn: async () =>

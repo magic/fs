@@ -17,9 +17,13 @@ export const getFilePath = async (fn, dir, file, depth = true, root = 'deprecate
     root = false
   }
 
+  let minDepth = 0
+  let maxDepth = 200
+
   if (!is.empty(depth) && is.objectNative(depth)) {
     root = depth.root
-    depth = depth.depth
+    maxDepth = depth?.depth || depth?.maxDepth
+    minDepth = depth?.minDepth
   }
 
   if (is.empty(fn)) {
@@ -52,8 +56,8 @@ export const getFilePath = async (fn, dir, file, depth = true, root = 'deprecate
       .split(path.sep)
       .filter(a => a).length
 
-    if (depth || currentDepth === 1) {
-      return await fn(filePath, { depth, root })
+    if (maxDepth || currentDepth === 1) {
+      return await fn(filePath, { maxDepth, minDepth, root })
     }
   } else if (stat.isFile()) {
     return filePath

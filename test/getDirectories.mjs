@@ -80,7 +80,8 @@ export default [
     info: 'finds all directories in directory. recursively but with depth 3',
   },
   {
-    fn: async () => await fs.getDirectories(`${dirName}dirs_recursive_depth_3`, { maxDepth: 3, minDepth: 2 }),
+    fn: async () =>
+      await fs.getDirectories(`${dirName}dirs_recursive_depth_3`, { maxDepth: 3, minDepth: 2 }),
     before: createTestDirs('dirs_recursive_depth_3'),
     expect: expectedDirsDepthMax3Min2,
     info: 'finds all directories in directory. recursively but with maxDepth 3 and minDepth 2',

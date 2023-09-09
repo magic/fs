@@ -98,7 +98,7 @@ export const getFiles = async (dir, depth = true, root = 'deprecated') => {
           }
 
           return true
-        })
+        }),
     )
   } catch (e) {
     if (e.code === 'ENOENT') {

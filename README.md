@@ -296,7 +296,12 @@ update dependencies
 
 update dependencies
 
-##### 0.0.29 - unreleased
+##### 0.0.29
+
+- update dependencies
+- getFiles and getDirectories now accept maxDepth and minDepth config args
+
+##### 0.0.30 - unreleased
 
 ...
 

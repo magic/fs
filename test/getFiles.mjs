@@ -106,7 +106,15 @@ const expectedFilesWithExtensionJs = [
   path.join(process.cwd(), '.__test__files_extension_js', 'test', 'deep', 'test.js'),
   path.join(process.cwd(), '.__test__files_extension_js', 'test.js'),
   path.join(process.cwd(), '.__test__files_extension_js', 'test2', 'deep', 'deeper', 'deep.js'),
-  path.join(process.cwd(), '.__test__files_extension_js', 'test2', 'deep', 'deeper', 'evendeeper', 'deepest.js'),
+  path.join(
+    process.cwd(),
+    '.__test__files_extension_js',
+    'test2',
+    'deep',
+    'deeper',
+    'evendeeper',
+    'deepest.js',
+  ),
   path.join(process.cwd(), '.__test__files_extension_js', 'test2', 'deep', 'test2.js'),
 ]
 

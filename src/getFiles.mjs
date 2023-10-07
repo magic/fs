@@ -3,52 +3,35 @@ import path from 'path'
 import deep from '@magic/deep'
 import is from '@magic/types'
 import error from '@magic/error'
-import log from '@magic/log'
 
 import { getFilePath } from './getFilePath.mjs'
 import { fs } from './fs.mjs'
 
 const libName = '@magic/fs.getFiles'
 
-export const getFiles = async (dir, depth = true, root = 'deprecated') => {
-  if (root !== 'deprecated') {
-    log.warn('E_DEPRECATED', 'you have used fs.getFiles with a third argument.')
-    log.info('Please use the new syntax instead:')
-    log.info("fs.getFiles(dir, { maxDepth: 200, root: false, extension: 'md', minDepth: 0 })")
-  } else {
-    root = false
+export const getFiles = async (dir, args = {}) => {
+  if (is.number(args)) {
+    args = {
+      maxDepth: args,
+    }
   }
 
-  let minDepth = 0
-  let maxDepth = 200
+  let { minDepth = 0, maxDepth = false, depth = false, extension = false, ext = false, root } = args
 
-  let extension
+  if (ext && !extension) {
+    extension = ext
+  }
 
-  if (depth === false) {
-    maxDepth = 1
-  } else if (is.number(depth)) {
+  if (is.number(depth) && !is.number(maxDepth)) {
     maxDepth = depth
   }
-  if (!is.empty(depth) && is.objectNative(depth)) {
-    root = root || depth?.root
-    extension = depth?.extension
 
-    if (depth.hasOwnProperty('depth')) {
-      maxDepth = depth?.depth
-    } else if (depth.hasOwnProperty('maxDepth')) {
-      maxDepth = depth.maxDepth
-    }
-
-    if (depth.hasOwnProperty('minDepth')) {
-      minDepth = depth.minDepth
-    }
+  if (!is.number(maxDepth)) {
+    maxDepth = 200_000
   }
-
-  if (maxDepth === false) {
-    maxDepth = 1
+  if (!is.number(minDepth)) {
+    minDepth = 0
   }
-
-  maxDepth = parseInt(maxDepth)
 
   if (is.empty(dir)) {
     throw error(`${libName}: dir: first argument can not be empty.`, 'E_ARG_EMPTY')
@@ -58,13 +41,16 @@ export const getFiles = async (dir, depth = true, root = 'deprecated') => {
     throw error(`${libName}: dir: first argument must be a string.`, 'E_ARG_TYPE')
   }
 
-  if (is.empty(root) && is.number(maxDepth)) {
+  if (is.empty(root)) {
     root = dir
   }
 
-  const currentDepth = dir.replace(root, '').split(path.sep).length
+  const currentDepth = dir
+    .replace(root, '')
+    .split(path.sep)
+    .filter(a => a).length
 
-  if (is.number(maxDepth) && currentDepth - 1 > maxDepth) {
+  if (currentDepth > maxDepth) {
     return []
   }
 
@@ -84,23 +70,31 @@ export const getFiles = async (dir, depth = true, root = 'deprecated') => {
          */
         .filter(a => !extension || a.endsWith(extension))
         /*
-         * filter files if depth is smaller than minDepth
-         */
-        .filter(file => {
-          if (is.number(minDepth)) {
-            const currentDepth = file.replace(root, '').split(path.sep).length
-
-            return currentDepth > minDepth
-          }
-
-          return true
-        })
-        /*
          * filter nonfiles
          */
         .filter(async f => {
           const stat = await fs.stat(f)
           return stat.isFile()
+        })
+        /*
+         * filter files if depth is smaller than minDepth
+         */
+        .filter(file => {
+          if (!file) {
+            return false
+          }
+
+          if (is.number(minDepth)) {
+            const currentDepth =
+              file
+                .replace(root, '')
+                .split(path.sep)
+                .filter(a => a).length - 1
+
+            return currentDepth >= minDepth
+          }
+
+          return true
         }),
     )
   } catch (e) {

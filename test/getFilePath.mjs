@@ -45,10 +45,4 @@ export default [
     expect: path.join(process.cwd(), 'test', 'spec.mjs'),
     info: 'can concatenate paths correctly',
   },
-  {
-    fn: async () =>
-      await fs.getFilePath(a => a, path.join(process.cwd(), 'test'), 'spec.mjs', true, false),
-    expect: path.join(process.cwd(), 'test', 'spec.mjs'),
-    info: 'test deprecation warning',
-  },
 ]

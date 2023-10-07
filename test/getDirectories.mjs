@@ -140,7 +140,7 @@ export default [
   },
   {
     // make sure we default the root dir to process.cwd()
-    fn: async () => await fs.getDirectories('test', 22),
+    fn: async () => await fs.getDirectories('test'),
     expect: ['test', 'test/.lib'],
     info: 'default root dir is process.cwd and relative paths work',
   },

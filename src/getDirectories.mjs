@@ -11,39 +11,29 @@ import { getFilePath } from './getFilePath.mjs'
 
 const libName = '@magic/fs.getDirectories'
 
-export const getDirectories = async (dir, depth = {}, root = 'deprecated') => {
-  if (root !== 'deprecated') {
-    log.warn('E_DEPRECATED', 'you have used fs.getDirectories with a third argument.')
-    log.info('Please use the new syntax instead:')
-    log.info('fs.getDirectories(dir, { root: true })')
-  } else {
-    root = false
+export const getDirectories = async (dir, args = {}) => {
+  if (is.number(args)) {
+    args = {
+      maxDepth: args,
+    }
+  } else if (args === false) {
+    args = {
+      maxDepth: 1,
+    }
   }
 
-  let minDepth = 0
-  let maxDepth = 200
+  let { minDepth, maxDepth = false, depth = false, root, noRoot = false } = args
 
-  let noRoot = false
-  if (depth === false) {
-    maxDepth = 1
-  } else if (is.number(depth)) {
+  if (is.number(depth) && !is.number(maxDepth)) {
     maxDepth = depth
-  } else if (!is.empty(depth) && is.objectNative(depth)) {
-    root = root || depth?.root
-    noRoot = depth?.noRoot
-
-    if (depth.hasOwnProperty('depth')) {
-      maxDepth = depth.depth
-    } else if (depth.hasOwnProperty('maxDepth')) {
-      maxDepth = depth.maxDepth
-    }
-
-    if (depth.hasOwnProperty('minDepth')) {
-      minDepth = depth.minDepth
-    }
   }
 
-  maxDepth = parseInt(maxDepth)
+  if (!is.number(maxDepth)) {
+    maxDepth = 200_000
+  }
+  if (!is.number(minDepth)) {
+    minDepth = 0
+  }
 
   if (!is.array(dir) && !is.string(dir)) {
     throw error(`${libName}: need an array or a string as first argument`, 'E_ARG_TYPE')
@@ -70,8 +60,12 @@ export const getDirectories = async (dir, depth = {}, root = 'deprecated') => {
       return deep.flatten(...dirs).filter(a => a)
     }
 
-    const currentDepth = dir.replace(root, '').split(path.sep).length
-    if (is.number(maxDepth) && currentDepth - 1 > maxDepth) {
+    const currentDepth = dir
+      .replace(root, '')
+      .split(path.sep)
+      .filter(a => a).length
+
+    if (currentDepth > maxDepth) {
       return []
     }
 
@@ -110,24 +104,25 @@ export const getDirectories = async (dir, depth = {}, root = 'deprecated') => {
       }),
     )
 
-    let finalDirs = dirs.filter(a => a)
+    let finalDirs = deep.flatten(dirs).filter(a => a)
     if (!noRoot) {
       finalDirs = [dir, ...finalDirs]
     }
 
-    const finalized = deep.flatten(finalDirs).filter(dir => {
-      if (!dir) {
+    const finalized = finalDirs
+      .filter(a => a)
+      .filter(dir => {
+        if (is.number(minDepth)) {
+          const currentDepth = dir
+            .replace(root, '')
+            .split(path.sep)
+            .filter(a => a).length
+
+          return currentDepth >= minDepth
+        }
+
         return false
-      }
-
-      if (is.number(minDepth)) {
-        const currentDepth = dir.replace(root, '').split(path.sep).length
-
-        return currentDepth > minDepth
-      }
-
-      return true
-    })
+      })
 
     const unique = Array.from(new Set(finalized))
 

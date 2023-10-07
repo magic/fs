@@ -301,7 +301,13 @@ update dependencies
 - update dependencies
 - getFiles and getDirectories now accept maxDepth and minDepth config args
 
-##### 0.0.30 - unreleased
+##### 0.0.30
+
+- update dependencies
+- remove deprecated getFiles and getDirectories api
+- add minDepth option
+
+##### 0.0.31 - unreleased
 
 ...
 

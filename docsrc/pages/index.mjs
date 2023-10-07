@@ -86,17 +86,22 @@ await fs.rmrf('./path/to/dir')
 import fs from '@magic/fs'
 
 const run = async () => {
-  // first level directories
-  const directories = await fs.getDirectories(process.cwd(), { depth: false })
+  // first level directories, no recursion
+  const directories = await fs.getDirectories(process.cwd(), false)
   console.log(directories)
 
   // recursive run
   const deepDirectories = await fs.getDirectories(process.cwd())
   console.log(deepDirectories)
 
-  // recursive run with specified depth
+  // recursive run with specified depths
   const deepDirectoriesDepth2 = await fs.getDirectories(process.cwd(), { maxDepth: 2, minDepth: 1 })
   console.log(deepDirectoriesDepth2)
+
+
+  // maxDepth alias, both lines have the same result:
+  const files1 = await fs.getDirectories(process.cwd(), 3)
+  const files2 = await fs.getDirectories(process.cwd(), { maxDepth: 3 })
 }
 run()
 `),
@@ -109,7 +114,7 @@ import fs from '@magic/fs'
 
 const run = async () => {
   // first level files only
-  const files = await fs.getFiles(process.cwd(), { depth: false })
+  const files = await fs.getFiles(process.cwd(), false)
   console.log(files)
 
   // recursive run
@@ -119,6 +124,10 @@ const run = async () => {
   // recursive run with specified depth
   const getFilesDepth2 = await fs.getFiles(process.cwd(), { maxDepth: 2, minDepth: 1 })
   console.log(getFilesDepth2)
+
+  // maxDepth alias, both lines have the same result:
+  const files1 = await fs.getFiles(process.cwd(), 3)
+  const files2 = await fs.getFiles(process.cwd(), { maxDepth: 3 })
 }
 run()
 `),

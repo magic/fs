@@ -42,7 +42,11 @@ const expectedDirsDepth2 = [
   path.join(process.cwd(), '.__test__dirs_recursive_depth_2'),
   path.join(process.cwd(), '.__test__dirs_recursive_depth_2', '[testing]'),
   path.join(process.cwd(), '.__test__dirs_recursive_depth_2', '[testing_threedot_deep]'),
-  path.join(process.cwd(), '.__test__dirs_recursive_depth_2', '[testing_threedot_deep]/[...testing]'),
+  path.join(
+    process.cwd(),
+    '.__test__dirs_recursive_depth_2',
+    '[testing_threedot_deep]/[...testing]',
+  ),
   path.join(process.cwd(), '.__test__dirs_recursive_depth_2', 'test'),
   path.join(process.cwd(), '.__test__dirs_recursive_depth_2', 'test', 'deep'),
   path.join(process.cwd(), '.__test__dirs_recursive_depth_2', 'test2'),
@@ -53,7 +57,11 @@ const expectedDirsDepth3 = [
   path.join(process.cwd(), '.__test__dirs_recursive_depth_3'),
   path.join(process.cwd(), '.__test__dirs_recursive_depth_3', '[testing]'),
   path.join(process.cwd(), '.__test__dirs_recursive_depth_3', '[testing_threedot_deep]'),
-  path.join(process.cwd(), '.__test__dirs_recursive_depth_3', '[testing_threedot_deep]/[...testing]'),
+  path.join(
+    process.cwd(),
+    '.__test__dirs_recursive_depth_3',
+    '[testing_threedot_deep]/[...testing]',
+  ),
   path.join(process.cwd(), '.__test__dirs_recursive_depth_3', 'test'),
   path.join(process.cwd(), '.__test__dirs_recursive_depth_3', 'test', 'deep'),
   path.join(process.cwd(), '.__test__dirs_recursive_depth_3', 'test2'),
@@ -62,7 +70,12 @@ const expectedDirsDepth3 = [
 ]
 
 const expectedDirsDepthMax3Min2 = [
-  path.join(process.cwd(), '.__test__dirs_recursive_depth_3', '[testing_threedot_deep]', '[...testing]'),
+  path.join(
+    process.cwd(),
+    '.__test__dirs_recursive_depth_3',
+    '[testing_threedot_deep]',
+    '[...testing]',
+  ),
   path.join(process.cwd(), '.__test__dirs_recursive_depth_3', 'test', 'deep'),
   path.join(process.cwd(), '.__test__dirs_recursive_depth_3', 'test2', 'deep'),
   path.join(process.cwd(), '.__test__dirs_recursive_depth_3', 'test2', 'deep', 'deeper'),

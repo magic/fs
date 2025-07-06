@@ -307,7 +307,12 @@ update dependencies
 - remove deprecated getFiles and getDirectories api
 - add minDepth option
 
-##### 0.0.31 - unreleased
+##### 0.0.31
+
+- add tests for [...threedot_dirs]
+- update dependencies
+
+##### 0.0.32 - unreleased
 
 ...
 

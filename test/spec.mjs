@@ -37,6 +37,8 @@ const spec = {
   ftruncateSync: 'fn',
   futimes: 'fn',
   futimesSync: 'fn',
+  glob: 'fn',
+  globSync: 'fn',
   lchown: 'fn',
   lchownSync: 'fn',
   lchmod: 'fn',
@@ -52,6 +54,7 @@ const spec = {
   mkdtemp: 'fn',
   mkdtempSync: 'fn',
   open: 'fn',
+  openAsBlob: 'fn',
   openSync: 'fn',
   opendir: 'fn',
   opendirSync: 'fn',
@@ -109,6 +112,8 @@ const spec = {
   constants: [
     'object',
     {
+      EXTENSIONLESS_FORMAT_JAVASCRIPT: 'num',
+      EXTENSIONLESS_FORMAT_WASM: 'num',
       UV_FS_SYMLINK_DIR: 'num',
       UV_FS_SYMLINK_JUNCTION: 'num',
       O_RDONLY: 'num',
@@ -174,6 +179,7 @@ const spec = {
       constants: {},
       copyFile: 'fn',
       cp: 'fn',
+      glob: 'fn',
       open: 'fn',
       opendir: 'fn',
       rename: 'fn',

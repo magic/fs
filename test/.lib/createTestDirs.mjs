@@ -22,6 +22,8 @@ export const createTestDirs = dir => async () => {
   await fs.mkdirp(path.join(dir, 'test2', 'deep'))
   await fs.mkdirp(path.join(dir, 'test2', 'deep', 'deeper'))
   await fs.mkdirp(path.join(dir, 'test2', 'deep', 'deeper', 'evendeeper'))
+  await fs.mkdirp(path.join(dir, '[testing]'))
+  await fs.mkdirp(path.join(dir, '[testing_threedot_deep]', '[...testing]'))
 
   await Promise.all(files.map(async f => await fs.writeFile(f, 't')))
 

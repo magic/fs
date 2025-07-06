@@ -11,6 +11,9 @@ import { createTestDirs } from './.lib/createTestDirs.mjs'
 
 const expectedDirsRecursive = [
   path.join(process.cwd(), '.__test__dirs_recursive'),
+  path.join(process.cwd(), '.__test__dirs_recursive', '[testing]'),
+  path.join(process.cwd(), '.__test__dirs_recursive', '[testing_threedot_deep]'),
+  path.join(process.cwd(), '.__test__dirs_recursive', '[testing_threedot_deep]/[...testing]'),
   path.join(process.cwd(), '.__test__dirs_recursive', 'test'),
   path.join(process.cwd(), '.__test__dirs_recursive', 'test', 'deep'),
   path.join(process.cwd(), '.__test__dirs_recursive', 'test2'),
@@ -21,18 +24,25 @@ const expectedDirsRecursive = [
 
 const expectedDirs = [
   path.join(process.cwd(), '.__test__dirs_norecurse'),
+  path.join(process.cwd(), '.__test__dirs_norecurse', '[testing]'),
+  path.join(process.cwd(), '.__test__dirs_norecurse', '[testing_threedot_deep]'),
   path.join(process.cwd(), '.__test__dirs_norecurse', 'test'),
   path.join(process.cwd(), '.__test__dirs_norecurse', 'test2'),
 ]
 
 const expectedDirsDepth1 = [
   path.join(process.cwd(), '.__test__dirs_recursive_depth'),
+  path.join(process.cwd(), '.__test__dirs_recursive_depth', '[testing]'),
+  path.join(process.cwd(), '.__test__dirs_recursive_depth', '[testing_threedot_deep]'),
   path.join(process.cwd(), '.__test__dirs_recursive_depth', 'test'),
   path.join(process.cwd(), '.__test__dirs_recursive_depth', 'test2'),
 ]
 
 const expectedDirsDepth2 = [
   path.join(process.cwd(), '.__test__dirs_recursive_depth_2'),
+  path.join(process.cwd(), '.__test__dirs_recursive_depth_2', '[testing]'),
+  path.join(process.cwd(), '.__test__dirs_recursive_depth_2', '[testing_threedot_deep]'),
+  path.join(process.cwd(), '.__test__dirs_recursive_depth_2', '[testing_threedot_deep]/[...testing]'),
   path.join(process.cwd(), '.__test__dirs_recursive_depth_2', 'test'),
   path.join(process.cwd(), '.__test__dirs_recursive_depth_2', 'test', 'deep'),
   path.join(process.cwd(), '.__test__dirs_recursive_depth_2', 'test2'),
@@ -41,6 +51,9 @@ const expectedDirsDepth2 = [
 
 const expectedDirsDepth3 = [
   path.join(process.cwd(), '.__test__dirs_recursive_depth_3'),
+  path.join(process.cwd(), '.__test__dirs_recursive_depth_3', '[testing]'),
+  path.join(process.cwd(), '.__test__dirs_recursive_depth_3', '[testing_threedot_deep]'),
+  path.join(process.cwd(), '.__test__dirs_recursive_depth_3', '[testing_threedot_deep]/[...testing]'),
   path.join(process.cwd(), '.__test__dirs_recursive_depth_3', 'test'),
   path.join(process.cwd(), '.__test__dirs_recursive_depth_3', 'test', 'deep'),
   path.join(process.cwd(), '.__test__dirs_recursive_depth_3', 'test2'),
@@ -49,6 +62,7 @@ const expectedDirsDepth3 = [
 ]
 
 const expectedDirsDepthMax3Min2 = [
+  path.join(process.cwd(), '.__test__dirs_recursive_depth_3', '[testing_threedot_deep]', '[...testing]'),
   path.join(process.cwd(), '.__test__dirs_recursive_depth_3', 'test', 'deep'),
   path.join(process.cwd(), '.__test__dirs_recursive_depth_3', 'test2', 'deep'),
   path.join(process.cwd(), '.__test__dirs_recursive_depth_3', 'test2', 'deep', 'deeper'),
@@ -62,7 +76,7 @@ export default [
     info: 'finds all directories in directory. recursively',
   },
   {
-    fn: async () => await fs.getDirectories(`${dirName}dirs_recursive_depth`, 1),
+    fn: async () => await fs.getDirectories(`${dirName}dirs_recursive_depth`, { depth: 1 }),
     before: createTestDirs('dirs_recursive_depth'),
     expect: expectedDirsDepth1,
     info: 'finds all directories in directory. recursively but with depth 1',

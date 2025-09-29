@@ -72,9 +72,9 @@ rmDir
 ### export overloads:
 
 ```javascript
-rmdir, rmDir
-readfile, readFile
-readdir, readDir
+// rmdir, rmDir
+// readfile, readFile
+// readdir, readDir
 ```
 
 ### Additional functions:

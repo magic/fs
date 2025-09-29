@@ -9,6 +9,19 @@ const cwd = process.cwd()
 
 const libName = '@magic/fs.rmrf'
 
+/** 
+ * @typedef {object} Options
+ * @property {boolean} [dryRun]
+ */
+
+/**
+ * Recursively removes a file or directory.
+ *
+ * @throws {Error} If the argument is invalid, outside cwd, or fs operations fail.
+ * @param {string} dir
+ * @param {Options} [opts]
+ * @returns {Promise<boolean | undefined>}
+ */
 export const rmrf = async (dir, opts = {}) => {
   if (is.empty(dir)) {
     throw error(`${libName}: expecting a non-empty argument.`, 'E_DIR_EMPTY')
@@ -45,10 +58,12 @@ export const rmrf = async (dir, opts = {}) => {
       return true
     }
   } catch (e) {
-    if (e.code === 'ENOENT') {
+    const err = /** @type {Error & { code?: string}} */ (e)
+
+    if (err.code === 'ENOENT') {
       return true
     }
 
-    throw error(e)
+    throw error(err)
   }
 }

@@ -1,11 +1,11 @@
-import fso from 'fs'
-import util from 'util'
+import fso from 'node:fs'
+import util from 'node:util'
 
 const readDir = fso.promises.readdir
 const readFile = fso.promises.readFile
 const rmdir = fso.promises.rmdir
 
-export const fs = {
+export const fs = /** @type {const} */ ({
   ...fso,
   ...fso.promises,
   exists: util.promisify(fso.exists),
@@ -16,4 +16,4 @@ export const fs = {
   rmdir,
   rmDir: rmdir,
   watch: fso.watch,
-}
+})

@@ -7,6 +7,11 @@ import { fs } from './fs.mjs'
 
 const libName = '@magic/fs.mkdirp'
 
+/**
+ *
+ * @param {string} p
+ * @returns {Promise<boolean | void>}
+ */
 export const mkdirp = async p => {
   if (is.empty(p)) {
     throw error(`${libName} expects a non-empty path string as argument.`, 'E_ARG_EMPTY')
@@ -29,10 +34,11 @@ export const mkdirp = async p => {
     await fs.mkdir(p)
     return true
   } catch (e) {
-    if (e.code === 'EEXIST') {
+    const err = /** @type {Error & { code?: string}} */ (e)
+    if (err.code === 'EEXIST') {
       return true
     }
 
-    throw error(e.message, e.code)
+    throw error(err)
   }
 }

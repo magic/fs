@@ -9,7 +9,7 @@ import { exists } from './exists.mjs'
 import { getContentType } from './getContentType.mjs'
 import { getFilePath } from './getFilePath.mjs'
 
-export const fs = {
+export const fs = /** @type {const} */ ({
   ...fso,
   mkdirp,
   rmrf,
@@ -19,6 +19,6 @@ export const fs = {
   exists,
   getContentType,
   getFilePath,
-}
+})
 
 export default fs

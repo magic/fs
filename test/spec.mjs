@@ -52,6 +52,8 @@ const spec = {
   mkdir: 'fn',
   mkdirSync: 'fn',
   mkdtemp: 'fn',
+  mkdtempDisposable: 'fn',
+  mkdtempDisposableSync: 'fn',
   mkdtempSync: 'fn',
   open: 'fn',
   openAsBlob: 'fn',
@@ -82,6 +84,7 @@ const spec = {
   statfsSync: 'fn',
   symlink: 'fn',
   symlinkSync: 'fn',
+  Utf8Stream: 'fn',
   truncate: 'fn',
   truncateSync: 'fn',
   unwatchFile: 'fn',
@@ -179,6 +182,7 @@ const spec = {
       constants: {},
       copyFile: 'fn',
       cp: 'fn',
+      mkdtempDisposable: 'fn',
       glob: 'fn',
       open: 'fn',
       opendir: 'fn',
@@ -223,6 +227,7 @@ const spec = {
 
 const fns = [
   ...Object.keys(fso),
+  ...Object.keys(fso.promises),
   'readDir',
   'readfile',
   'rmDir',

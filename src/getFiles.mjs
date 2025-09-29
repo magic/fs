@@ -9,14 +9,39 @@ import { fs } from './fs.mjs'
 
 const libName = '@magic/fs.getFiles'
 
-export const getFiles = async (dir, args = {}) => {
-  if (is.number(args)) {
-    args = {
-      maxDepth: args,
+/**
+ * @typedef {object} Options
+ * @property {number} [minDepth]
+ * @property {number} [maxDepth]
+ * @property {number} [depth]
+ * @property {string} [extension]
+ * @property {string} [ext]
+ * @property {string} [root]
+ */
+
+/**
+ * @param {string} dir
+ * First argument: directory to scan
+ * @param {number | Options} [options]
+ * If number, sets maxDepth directly.
+ * @returns {Promise<string[]>}
+ */
+
+export const getFiles = async (dir, options = {}) => {
+  if (is.number(options)) {
+    options = {
+      maxDepth: options,
     }
   }
 
-  let { minDepth = 0, maxDepth = false, depth = false, extension = false, ext = false, root } = args
+  let {
+    minDepth = 0,
+    maxDepth = false,
+    depth = false,
+    extension = false,
+    ext = false,
+    root = process.cwd(),
+  } = options
 
   if (ext && !extension) {
     extension = ext
@@ -48,7 +73,7 @@ export const getFiles = async (dir, args = {}) => {
   const currentDepth = dir
     .replace(root, '')
     .split(path.sep)
-    .filter(a => a).length
+    .filter(a => a).length - 1
 
   if (currentDepth > maxDepth) {
     return []
@@ -61,9 +86,9 @@ export const getFiles = async (dir, args = {}) => {
     )
 
     return await Promise.all(
-      deep
-        .flatten(files)
-        .filter(a => a)
+      files
+        .flat(20000)
+        .filter(a => !is.undef(a))
         /*
          * if an extension parameter has been passed,
          * remove the file if it does not end with extension
@@ -72,8 +97,8 @@ export const getFiles = async (dir, args = {}) => {
         /*
          * filter nonfiles
          */
-        .filter(async f => {
-          const stat = await fs.stat(f)
+        .filter(f => {
+          const stat = fs.statSync(f)
           return stat.isFile()
         })
         /*
@@ -87,7 +112,7 @@ export const getFiles = async (dir, args = {}) => {
           if (is.number(minDepth)) {
             const currentDepth =
               file
-                .replace(root, '')
+                .replace(root ?? '', '')
                 .split(path.sep)
                 .filter(a => a).length - 1
 
@@ -98,10 +123,11 @@ export const getFiles = async (dir, args = {}) => {
         }),
     )
   } catch (e) {
-    if (e.code === 'ENOENT') {
+    const err = /** @type {Error & { code?: string }} */ (e)
+    if (err.code === 'ENOENT') {
       return []
     }
 
-    throw error(e.message, e.code)
+    throw error(err.message, err.code)
   }
 }

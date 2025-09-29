@@ -1,11 +1,11 @@
 import { is } from '@magic/test'
+import mimes from '@magic/mime-types'
 
-import { contentTypes } from '../src/contentTypes.mjs'
 import { getFileType } from '../src/getFileType.mjs'
 
 export default [
   {
-    fn: Object.entries(contentTypes).filter(([ext, type]) => ext !== getFileType(`file.${ext}`)),
+    fn: Object.entries(mimes).filter(([ext, type]) => ext !== getFileType(`file.${ext}`)),
     expect: is.empty,
     info: 'getFileType handles all defined contentTypes correctly',
   },

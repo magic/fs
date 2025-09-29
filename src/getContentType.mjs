@@ -1,11 +1,16 @@
 import { getFileType } from './getFileType.mjs'
-import { contentTypes } from './contentTypes.mjs'
 
+import mimes from '@magic/mime-types'
 import is from '@magic/types'
 import error from '@magic/error'
 
 const libName = '@magic/fs.getContentType'
 
+/**
+ *
+ * @param {string} uri
+ * @returns {string}
+ */
 export const getContentType = uri => {
   if (is.empty(uri)) {
     throw error(`${libName}: need uri to be a non-empty string`, 'E_ARG_EMPTY')
@@ -17,8 +22,8 @@ export const getContentType = uri => {
 
   const fileType = getFileType(uri)
   let contentType = 'text/plain'
-  if (contentTypes[fileType]) {
-    contentType = contentTypes[fileType]
+  if (fileType in mimes) {
+    contentType = mimes[fileType]
   }
 
   return contentType

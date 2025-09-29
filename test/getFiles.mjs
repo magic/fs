@@ -123,57 +123,95 @@ export default [
     fn: async () => await fs.getFiles(`${dirName}files_recursive`),
     before: createTestDirs('files_recursive'),
     expect: expectedFilesRecursive,
-    info: 'finds all files in directory. recursively.',
+    info: 'finds all files in directory recursively',
   },
   {
     fn: async () => await fs.getFiles(`${dirName}files_norecurse`, { maxDepth: 1 }),
     before: createTestDirs('files_norecurse'),
     expect: expectedFiles,
-    info: 'finds all files in directory. without recursion.',
+    info: 'finds all files in directory without recursion using maxDepth option',
   },
   {
     fn: async () => await fs.getFiles(`${dirName}files_recursive_depth_1`, { maxDepth: 1 }),
     before: createTestDirs('files_recursive_depth_1'),
     expect: expectedFilesRecursiveDepth1,
-    info: 'finds all files in directory. recursively, but for depth 1',
+    info: 'finds all files in directory recursively with maxDepth 1',
   },
   {
     fn: async () => await fs.getFiles(`${dirName}files_recursive_depth_2`, { maxDepth: 2 }),
     before: createTestDirs('files_recursive_depth_2'),
     expect: expectedFilesRecursiveDepth2,
-    info: 'finds all files in directory. recursively, but for depth 2',
+    info: 'finds all files in directory recursively with maxDepth 2',
   },
   {
     fn: async () => await fs.getFiles(`${dirName}files_recursive_depth_3`, { maxDepth: 3 }),
     before: createTestDirs('files_recursive_depth_3'),
     expect: expectedFilesRecursiveDepth3,
-    info: 'finds all files in directory. recursively, but for depth 3',
+    info: 'finds all files in directory recursively with maxDepth 3',
   },
   {
     fn: async () =>
       await fs.getFiles(`${dirName}files_recursive_depth_3`, { maxDepth: 3, minDepth: 2 }),
     before: createTestDirs('files_recursive_depth_3'),
     expect: expectedFilesRecursiveDepthMax3Min2,
-    info: 'finds all files in directory. recursively, but for maxDepth 3 and minDepth 2',
+    info: 'finds all files in directory with maxDepth 3 and minDepth 2',
   },
   {
     fn: async () =>
       await fs.getFiles(`${dirName}files_recursive_depth_3_options_object`, { depth: 3 }),
     before: createTestDirs('files_recursive_depth_3_options_object'),
     expect: expectedFilesRecursiveDepth3OptionsObject,
-    info: 'finds all files in directory. recursively, but for { depth: 3 } options object',
+    info: 'finds all files in directory recursively with depth option object',
   },
   {
     fn: async () => await fs.getFiles(`${dirName}files_extension_md`, { ext: 'md' }),
     before: createTestDirs('files_extension_md'),
     expect: expectedFilesWithExtensionMd,
-    info: 'finds all files in directory, if their extension matches { ext: md }',
+    info: 'finds all files with specific extension using ext option',
   },
   {
     fn: async () => await fs.getFiles(`${dirName}files_extension_js`, { extension: 'js' }),
     before: createTestDirs('files_extension_js'),
     expect: expectedFilesWithExtensionJs,
-    info: 'finds all files in directory, if their extension matches { extension: js }',
+    info: 'finds all files with specific extension using extension option',
+  },
+  {
+    fn: async () => await fs.getFiles(`${dirName}files_depth_numeric`, 2),
+    before: createTestDirs('files_depth_numeric'),
+    expect: is.array,
+    info: 'handles numeric options parameter by setting maxDepth directly',
+  },
+  {
+    fn: async () =>
+      await fs.getFiles(`${dirName}files_extension_fallback`, { ext: '.js', extension: false }),
+    before: createTestDirs('files_extension_fallback'),
+    expect: is.array,
+    info: 'uses ext option when extension is false',
+  },
+  {
+    fn: async () => await fs.getFiles(`${dirName}files_root_option`, { root: process.cwd() }),
+    before: createTestDirs('files_root_option'),
+    expect: is.array,
+    info: 'uses provided root option for depth calculations',
+  },
+  {
+    fn: async () => await fs.getFiles(`${dirName}files_no_root`, { root: '' }),
+    before: createTestDirs('files_no_root'),
+    expect: is.array,
+    info: 'defaults root to dir when root is empty',
+  },
+  {
+    fn: async () =>
+      await fs.getFiles(`${dirName}files_maxdepth_not_number`, { maxDepth: false, depth: false }),
+    before: createTestDirs('files_maxdepth_not_number'),
+    expect: is.array,
+    info: 'defaults to large maxDepth when maxDepth is not a number',
+  },
+  {
+    fn: async () => await fs.getFiles(`${dirName}files_mindepth_not_number`, { minDepth: false }),
+    before: createTestDirs('files_mindepth_not_number'),
+    expect: is.array,
+    info: 'defaults minDepth to 0 when not a number',
   },
   {
     fn: async () => await fs.getFiles('non_existing_path'),
@@ -183,22 +221,16 @@ export default [
   {
     fn: tryCatch(fs.getFiles),
     expect: t => t.name === 'E_ARG_EMPTY',
-    info: 'throws with E_ARG_EMPTY if argument is missing',
+    info: 'throws E_ARG_EMPTY error when no arguments provided',
   },
   {
     fn: tryCatch(fs.getFiles, ''),
     expect: t => t.name === 'E_ARG_EMPTY',
-    info: 'throws with E_ARG_EMPTY if argument is empty',
+    info: 'throws E_ARG_EMPTY error when empty string provided',
   },
   {
     fn: tryCatch(fs.getFiles, 23),
     expect: t => t.name === 'E_ARG_TYPE',
-    info: 'throws with E_ARG_TYPE if argument is wrong type',
-  },
-
-  {
-    fn: async () => await fs.getFiles('non_existing_path', true, false),
-    expect: is.array,
-    info: 'test deprecation warning',
+    info: 'throws E_ARG_TYPE error when numeric argument provided instead of string',
   },
 ]

@@ -5,6 +5,7 @@ import is from '@magic/types'
 
 const libName = '@magic/fs.exists'
 
+/** @type {(f: import('node:fs').PathLike) => Promise<boolean>} */
 export const exists = async f => {
   if (is.empty(f)) {
     throw error(`${libName} expects argument to be non-empty`, 'E_ARG_EMPTY')
@@ -18,10 +19,11 @@ export const exists = async f => {
     await fs.stat(f)
     return true
   } catch (e) {
-    if (e.code === 'ENOENT') {
+    const err = /** @type {Error & { code: string }} */ (e)
+    if (err.code === 'ENOENT') {
       return false
     }
 
-    throw error(e.message, e.code || e.name)
+    throw error(err.message, err.code || err.name)
   }
 }

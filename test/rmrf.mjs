@@ -9,6 +9,7 @@ const test1Dir = `${dirName}test1`
 const test2Dir = `${dirName}test2`
 const test3Dir = `${dirName}test3`
 const test4Dir = `${dirName}test4`
+const test5Dir = `${dirName}test5`
 
 const before = async dir => {
   await fs.mkdirp(dir)
@@ -23,17 +24,32 @@ export default [
   {
     fn: tryCatch(fs.rmrf),
     expect: t => t.code === 'E_DIR_EMPTY',
-    info: 'rmrf errors without an argument',
+    info: 'throws E_DIR_EMPTY error when no arguments provided',
   },
   {
-    fn: tryCatch(fs.rmrf),
+    fn: tryCatch(fs.rmrf, ''),
     expect: t => t.code === 'E_DIR_EMPTY',
-    info: 'rmrf without argument errors with E_DIR_EMPTY',
+    info: 'throws E_DIR_EMPTY error when empty string provided',
   },
   {
     fn: tryCatch(fs.rmrf, 23),
     expect: t => t.code === 'E_DIR_TYPE',
-    info: 'rmrf without argument errors with E_DIR_TYPE',
+    info: 'throws E_DIR_TYPE error when numeric argument provided instead of string',
+  },
+  {
+    fn: tryCatch(fs.rmrf, null),
+    expect: t => t.code === 'E_DIR_EMPTY',
+    info: 'throws E_DIR_EMPTY error when null argument provided',
+  },
+  {
+    fn: tryCatch(fs.rmrf, undefined),
+    expect: t => t.code === 'E_DIR_EMPTY',
+    info: 'throws E_DIR_EMPTY error when undefined argument provided',
+  },
+  {
+    fn: tryCatch(fs.rmrf, { test: true }),
+    expect: t => t.code === 'E_DIR_TYPE',
+    info: 'throws E_DIR_TYPE error when object argument provided instead of string',
   },
   {
     fn: async () => {
@@ -42,32 +58,32 @@ export default [
     },
     before: before(test1Dir),
     expect: true,
-    info: 'rmrf deeply deletes directory structures',
+    info: 'recursively deletes directory structures with files',
   },
   {
     fn: async () => {
-      const root = `\\${dirName}test2`
-      return await fs.rmrf(test2Dir)
+      const root = test2Dir
+      return await fs.rmrf(root)
     },
     before: before(test2Dir),
     expect: true,
-    info: 'rmrf deeply deletes directory structures',
+    info: 'successfully deletes directory with backslash handling',
   },
   {
-    fn: tryCatch(fs.rmrf, path.join(dirName, 'non', 'existent', 'dir')),
+    fn: async () => await fs.rmrf(path.join(dirName, 'non', 'existent', 'dir')),
     expect: true,
-    info: 'rmrf returns true if the directory/file does not exist',
+    info: 'returns true when attempting to delete non-existent directory',
   },
   {
     fn: tryCatch(fs.rmrf, path.join('/', 'non', 'existent', 'dir')),
     expect: t => t.code === 'E_OUTSIDE_CWD',
-    info: 'rmrf returns E_OUTSIDE_CWD for dirs outside the cwd',
+    info: 'throws E_OUTSIDE_CWD error when path is outside current working directory',
   },
   {
     fn: async () => await fs.rmrf('.__test__test3'),
     before: before(test3Dir),
     expect: true,
-    info: 'rmrf deletes relative dirs relative to process.cwd()',
+    info: 'deletes relative directory paths successfully',
   },
   {
     fn: async () => {
@@ -78,6 +94,41 @@ export default [
     },
     before: before(test4Dir),
     expect: true,
-    info: 'rmrf deeply deletes directory structures and they do not exist afterwards',
+    info: 'completely removes directory and confirms it no longer exists',
+  },
+  {
+    fn: async () => {
+      // Create a single file to test file deletion
+      const testFile = path.join(process.cwd(), '.__test__single_file.txt')
+      await fs.writeFile(testFile, 'test content')
+      const result = await fs.rmrf(testFile)
+      return result
+    },
+    expect: true,
+    info: 'successfully deletes single files',
+  },
+  {
+    fn: async () => {
+      const testDir = test5Dir
+      await fs.mkdirp(testDir)
+      const result = await fs.rmrf(testDir, { dryRun: true })
+      const stillExists = await fs.exists(testDir)
+      await fs.rmrf(testDir) // cleanup
+      return result && stillExists
+    },
+    expect: true,
+    info: 'dry run mode returns true but does not actually delete directories',
+  },
+  {
+    fn: async () => {
+      const testFile = path.join(process.cwd(), '.__test__dry_run_file.txt')
+      await fs.writeFile(testFile, 'test content')
+      const result = await fs.rmrf(testFile, { dryRun: true })
+      const stillExists = await fs.exists(testFile)
+      await fs.rmrf(testFile) // cleanup
+      return result && stillExists
+    },
+    expect: true,
+    info: 'dry run mode returns true but does not actually delete files',
   },
 ]

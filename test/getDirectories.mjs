@@ -83,41 +83,63 @@ const expectedDirsDepthMax3Min2 = [
 
 export default [
   {
-    fn: async () => await fs.getDirectories(`${dirName}dirs_recursive`),
+    fn: async () =>
+      await fs.getDirectories(`${dirName}dirs_recursive`, { root: `${dirName}dirs_recursive` }),
     before: createTestDirs('dirs_recursive'),
     expect: expectedDirsRecursive,
-    info: 'finds all directories in directory. recursively',
+    info: 'finds all directories in directory recursively',
   },
   {
-    fn: async () => await fs.getDirectories(`${dirName}dirs_recursive_depth`, { depth: 1 }),
+    fn: async () => await fs.getDirectories(`${dirName}dirs_recursive_depth`, { maxDepth: 1 }),
     before: createTestDirs('dirs_recursive_depth'),
     expect: expectedDirsDepth1,
-    info: 'finds all directories in directory. recursively but with depth 1',
+    info: 'finds all directories in directory recursively but with depth 1',
   },
   {
     fn: async () => await fs.getDirectories(`${dirName}dirs_recursive_depth_2`, 2),
     before: createTestDirs('dirs_recursive_depth_2'),
     expect: expectedDirsDepth2,
-    info: 'finds all directories in directory. recursively but with depth 2',
+    info: 'finds all directories in directory recursively but with depth 2',
   },
   {
     fn: async () => await fs.getDirectories(`${dirName}dirs_recursive_depth_3`, 3),
     before: createTestDirs('dirs_recursive_depth_3'),
     expect: expectedDirsDepth3,
-    info: 'finds all directories in directory. recursively but with depth 3',
+    info: 'finds all directories in directory recursively but with depth 3',
   },
   {
     fn: async () =>
       await fs.getDirectories(`${dirName}dirs_recursive_depth_3`, { maxDepth: 3, minDepth: 2 }),
     before: createTestDirs('dirs_recursive_depth_3'),
     expect: expectedDirsDepthMax3Min2,
-    info: 'finds all directories in directory. recursively but with maxDepth 3 and minDepth 2',
+    info: 'finds all directories in directory recursively but with maxDepth 3 and minDepth 2',
   },
   {
-    fn: async () => await fs.getDirectories(`${dirName}dirs_norecurse`, false),
+    fn: async () => await fs.getDirectories(`${dirName}dirs_norecurse`, { maxDepth: 1 }),
     before: createTestDirs('dirs_norecurse'),
     expect: expectedDirs,
-    info: 'finds all directories in directory. without recursion',
+    info: 'finds all directories in directory without recursion using maxDepth 1',
+  },
+  {
+    fn: async () => await fs.getDirectories(`${dirName}dirs_norecurse_false`, false),
+    before: createTestDirs('dirs_norecurse_false'),
+    expect: is.array,
+    info: 'handles false options parameter by setting maxDepth to 1',
+  },
+  {
+    fn: async () => await fs.getDirectories('test', { noRoot: true }),
+    expect: ['test/.lib'],
+    info: 'excludes root directory when noRoot option is true',
+  },
+  {
+    fn: async () => await fs.getDirectories('test', { root: process.cwd() }),
+    expect: ['test', 'test/.lib'],
+    info: 'uses provided root directory option',
+  },
+  {
+    fn: async () => await fs.getDirectories(['test'], { root: '' }),
+    expect: ['test', 'test/.lib'],
+    info: 'defaults to process.cwd() when root is empty string',
   },
   {
     fn: async () => await fs.getDirectories('non_existing_path'),
@@ -127,7 +149,7 @@ export default [
   {
     fn: async () => await fs.getDirectories(['non_existing_path']),
     expect: is.length.equal(0),
-    info: 'returns empty array if given invalid path',
+    info: 'returns empty array if given invalid path in array',
   },
   {
     fn: tryCatch(fs.getDirectories, path.join(process.cwd(), 'package.json')),
@@ -137,17 +159,17 @@ export default [
   {
     fn: tryCatch(fs.getDirectories, [0]),
     expect: is.error,
-    info: 'returns error if given invalid path',
+    info: 'returns error if given invalid path in array',
   },
   {
     fn: tryCatch(fs.getDirectories, 0),
     expect: is.error,
-    info: 'returns error if given invalid path',
+    info: 'returns error if given invalid numeric path',
   },
   {
     fn: tryCatch(fs.getDirectories, 0),
     expect: t => t.name === 'E_ARG_TYPE',
-    info: 'returns error E_ARG_TYPE if given invalid path',
+    info: 'returns error E_ARG_TYPE if given invalid numeric argument',
   },
   {
     fn: tryCatch(fs.getDirectories, []),
@@ -163,18 +185,12 @@ export default [
     // make sure we default the root dir to process.cwd()
     fn: async () => await fs.getDirectories(['test']),
     expect: ['test', 'test/.lib'],
-    info: 'relative dirs work in arrays',
+    info: 'relative dirs work in arrays with default root directory',
   },
   {
     // make sure we default the root dir to process.cwd()
     fn: async () => await fs.getDirectories('test'),
     expect: ['test', 'test/.lib'],
     info: 'default root dir is process.cwd and relative paths work',
-  },
-  {
-    // test deprecation warning
-    fn: async () => await fs.getDirectories('test', true, false),
-    expect: ['test', 'test/.lib'],
-    info: 'test deprecation warning',
   },
 ]

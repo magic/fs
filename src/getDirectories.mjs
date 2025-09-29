@@ -1,9 +1,8 @@
-import path from 'path'
+import path from 'node:path'
 
 import is from '@magic/types'
 import deep from '@magic/deep'
 import error from '@magic/error'
-import log from '@magic/log'
 
 import { fs } from './fs.mjs'
 
@@ -11,18 +10,34 @@ import { getFilePath } from './getFilePath.mjs'
 
 const libName = '@magic/fs.getDirectories'
 
-export const getDirectories = async (dir, args = {}) => {
-  if (is.number(args)) {
-    args = {
-      maxDepth: args,
+/**
+ * @typedef {object} Options
+ * @property {string} [root]
+ * @property {number} [maxDepth]
+ * @property {number} [minDepth]
+ * @property {boolean | number} [depth]
+ * @property {boolean} [noRoot]
+ */
+
+/**
+ * @param {string | string[]} dir
+ * @param {number | false | Options} [options]
+ * if options is a number, its the max depth of recursion.
+ * if it is false, maxDepth is set to 1
+ * @returns {Promise<string[]>}
+ */
+export const getDirectories = async (dir, options = {}) => {
+  if (is.number(options)) {
+    options = {
+      maxDepth: options,
     }
-  } else if (args === false) {
-    args = {
+  } else if (options === false) {
+    options = {
       maxDepth: 1,
     }
   }
 
-  let { minDepth, maxDepth = false, depth = false, root, noRoot = false } = args
+  let { minDepth, maxDepth = false, depth = false, root, noRoot = false } = options
 
   if (is.number(depth) && !is.number(maxDepth)) {
     maxDepth = depth
@@ -43,25 +58,19 @@ export const getDirectories = async (dir, args = {}) => {
     throw error(`${libName}: first argument can not be empty`, 'E_ARG_EMPTY')
   }
 
-  if (is.empty(root)) {
-    if (is.string(dir)) {
-      root = dir
-    } else {
-      root = process.cwd()
-    }
+  if (is.empty(root) && is.string(dir)) {
+    root = dir
   }
 
   try {
     if (is.array(dir)) {
-      const dirs = await Promise.all(
-        dir.map(async f => await getDirectories(f, { maxDepth, minDepth, root, noRoot })),
-      )
+      const dirs = await Promise.all(dir.map(async f => await getDirectories(f, options)))
 
       return deep.flatten(...dirs).filter(a => a)
     }
 
     const currentDepth = dir
-      .replace(root, '')
+      .replace(root || process.cwd(), '')
       .split(path.sep)
       .filter(a => a).length
 
@@ -71,7 +80,10 @@ export const getDirectories = async (dir, args = {}) => {
 
     const dirContent = await fs.readdir(dir)
 
-    const dirs = await Promise.all(
+    /** @type {string[]} */
+    const dirs = []
+
+    await Promise.all(
       dirContent.map(async file => {
         if (!is.string(file)) {
           throw error(`${libName}: path was not a string: ${file}`, 'E_ARG_TYPE')
@@ -92,7 +104,11 @@ export const getDirectories = async (dir, args = {}) => {
 
               const stat = await fs.stat(file)
               if (stat.isDirectory()) {
-                return filePath
+                if (is.arr(filePath)) {
+                  dirs.push(...filePath)
+                } else if (is.string(filePath)) {
+                  dirs.push(filePath)
+                }
               }
             }),
           )
@@ -112,9 +128,9 @@ export const getDirectories = async (dir, args = {}) => {
     const finalized = finalDirs
       .filter(a => a)
       .filter(dir => {
-        if (is.number(minDepth)) {
+        if (is.number(minDepth) && is.string(dir)) {
           const currentDepth = dir
-            .replace(root, '')
+            .replace(root || process.cwd(), '')
             .split(path.sep)
             .filter(a => a).length
 
@@ -128,7 +144,8 @@ export const getDirectories = async (dir, args = {}) => {
 
     return unique
   } catch (e) {
-    if (e.code === 'ENOENT') {
+    const err = /** @type {import('@magic/error').CustomError} */ (e)
+    if (err.code === 'ENOENT') {
       return []
     }
 

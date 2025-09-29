@@ -1,10 +1,10 @@
 import { is, tryCatch } from '@magic/test'
+import mimes from '@magic/mime-types'
 
 import { getContentType } from '../src/getContentType.mjs'
-import { contentTypes } from '../src/contentTypes.mjs'
 
 export default [
-  ...Object.entries(contentTypes).map(([ext, type]) => {
+  ...Object.entries(mimes).map(([ext, type]) => {
     return {
       fn: getContentType(`file.${ext}`),
       expect: type,

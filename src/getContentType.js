@@ -22,8 +22,11 @@ export const getContentType = uri => {
 
   const fileType = getFileType(uri)
   let contentType = 'text/plain'
-  if (fileType in mimes) {
-    contentType = mimes[fileType]
+
+  const mimeTypes = /** @type {Record<string, string>} */ (mimes)
+
+  if (fileType in mimeTypes) {
+    contentType = mimeTypes[fileType]
   }
 
   return contentType

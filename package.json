@@ -6,15 +6,18 @@
   "license": "AGPL-3.0",
   "homepage": "https://magic.github.io/fs",
   "main": "src/index.mjs",
+  "types": "types/index.d.ts",
   "module": "src/index.mjs",
   "type": "module",
   "scripts": {
     "start": "npm test",
+    "build": "tsc && npm run format",
+    "prepublishOnly": "npm run build",
     "test": "t --exclude docs example config.js",
     "format": "f -w --exclude docs",
     "format:check": "f",
     "calls": "calls",
-    "build": "NODE_ENV=production magic build",
+    "build:docs": "NODE_ENV=production magic build",
     "prod": "NODE_ENV=production magic build serve",
     "clean": "magic clean",
     "serve": "magic serve",
@@ -39,17 +42,20 @@
     "@magic-themes/docs": "0.0.15",
     "@magic/core": "0.0.156",
     "@magic/format": "0.0.68",
-    "@magic/test": "0.2.20"
+    "@magic/test": "0.2.20",
+    "@types/node": "24.7.1",
+    "typescript": "5.9.3"
   },
   "dependencies": {
-    "@magic/deep": "0.1.16",
-    "@magic/error": "0.0.17",
-    "@magic/log": "0.1.18",
-    "@magic/mime-types": "0.0.18",
-    "@magic/types": "0.1.23"
+    "@magic/deep": "0.1.18",
+    "@magic/error": "0.0.20",
+    "@magic/log": "0.1.19",
+    "@magic/mime-types": "0.0.21",
+    "@magic/types": "0.1.27"
   },
   "files": [
-    "src"
+    "src",
+    "types"
   ],
   "contributors": [
     {

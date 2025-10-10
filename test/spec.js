@@ -2,7 +2,7 @@ import { is, version, log } from '@magic/test'
 
 import fso from 'fs'
 
-import fs from '../src/index.mjs'
+import fs from '../src/index.js'
 
 const spec = {
   appendFile: 'fn',

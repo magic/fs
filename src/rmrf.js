@@ -3,7 +3,7 @@ import path from 'path'
 import is from '@magic/types'
 import error from '@magic/error'
 
-import { fs } from './fs.mjs'
+import { fs } from './fs.js'
 
 const cwd = process.cwd()
 

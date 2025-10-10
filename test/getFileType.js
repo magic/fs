@@ -1,7 +1,7 @@
 import { is } from '@magic/test'
 import mimes from '@magic/mime-types'
 
-import { getFileType } from '../src/getFileType.mjs'
+import { getFileType } from '../src/getFileType.js'
 
 export default [
   {

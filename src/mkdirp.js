@@ -3,7 +3,7 @@ import path from 'path'
 import error from '@magic/error'
 import is from '@magic/types'
 
-import { fs } from './fs.mjs'
+import { fs } from './fs.js'
 
 const libName = '@magic/fs.mkdirp'
 

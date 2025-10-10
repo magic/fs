@@ -1,7 +1,7 @@
 import path from 'path'
 import { tryCatch } from '@magic/test'
 
-import fs from '../src/index.mjs'
+import fs from '../src/index.js'
 
 const dirName = path.join(process.cwd(), '.__test__')
 

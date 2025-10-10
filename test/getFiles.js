@@ -3,11 +3,11 @@ import path from 'path'
 
 import { is, tryCatch } from '@magic/test'
 
-import fs from '../src/index.mjs'
+import fs from '../src/index.js'
 
 const dirName = path.join(process.cwd(), '.__test__')
 
-import { createTestDirs } from './.lib/createTestDirs.mjs'
+import { createTestDirs } from './.lib/createTestDirs.js'
 
 const expectedFiles = [
   path.join(process.cwd(), '.__test__files_norecurse', 'test.js'),

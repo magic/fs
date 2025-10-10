@@ -4,9 +4,9 @@ import is from '@magic/types'
 import deep from '@magic/deep'
 import error from '@magic/error'
 
-import { fs } from './fs.mjs'
+import { fs } from './fs.js'
 
-import { getFilePath } from './getFilePath.mjs'
+import { getFilePath } from './getFilePath.js'
 
 const libName = '@magic/fs.getDirectories'
 

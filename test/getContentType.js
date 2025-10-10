@@ -1,7 +1,7 @@
 import { is, tryCatch } from '@magic/test'
 import mimes from '@magic/mime-types'
 
-import { getContentType } from '../src/getContentType.mjs'
+import { getContentType } from '../src/getContentType.js'
 
 export default [
   ...Object.entries(mimes).map(([ext, type]) => {

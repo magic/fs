@@ -1,17 +1,16 @@
-import path from 'path'
+import path from 'node:path'
 
 import is from '@magic/types'
 import error from '@magic/error'
 
-import { fs } from './fs.mjs'
+import { fs } from './fs.js'
 
 const libName = '@magic/fs.getFilePath'
 
 /**
- * @typedef {typeof import('./getFiles.mjs').getFiles} GetFiles
- * @typedef {import('./getFiles.mjs').Options} GetFilesOptions
- * @typedef {typeof import('./getDirectories.mjs').getDirectories} GetDirectories
- * @typedef {import('./getDirectories.mjs').Options} GetDirectoriesOptions
+ * @typedef {typeof import('./getFiles.js').getFiles} GetFiles
+ * @typedef {import('./getFiles.js').Options} GetFilesOptions
+ * @typedef {typeof import('./getDirectories.js').getDirectories} GetDirectories
  *
  */
 
@@ -20,7 +19,7 @@ const libName = '@magic/fs.getFilePath'
  * @param {GetFiles | GetDirectories} fn
  * @param {string} dir
  * @param {string} file
- * @param {GetFilesOptions | GetDirectoriesOptions} args
+ * @param {GetFilesOptions} args
  * @returns {Promise<string | string[] | undefined>}
  */
 export const getFilePath = async (fn, dir, file, args = {}) => {

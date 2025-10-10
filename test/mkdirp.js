@@ -2,7 +2,7 @@ import { tryCatch, is } from '@magic/test'
 
 import path from 'path'
 
-import fs from '../src/index.mjs'
+import fs from '../src/index.js'
 
 const tmpRootDir = path.join(process.cwd(), 'deep')
 const tmpDir = path.join(tmpRootDir, 'dir', 'structure')

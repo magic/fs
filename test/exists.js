@@ -1,6 +1,6 @@
 import { tryCatch } from '@magic/test'
 
-import fs from '../src/index.mjs'
+import fs from '../src/index.js'
 
 export default [
   {

@@ -1,6 +1,6 @@
 import path from 'path'
 
-import fs from '../../src/index.mjs'
+import fs from '../../src/index.js'
 
 const dirName = path.join(process.cwd(), '.__test__')
 

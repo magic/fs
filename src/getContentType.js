@@ -1,8 +1,8 @@
-import { getFileType } from './getFileType.mjs'
-
 import mimes from '@magic/mime-types'
 import is from '@magic/types'
 import error from '@magic/error'
+
+import { getFileType } from './getFileType.js'
 
 const libName = '@magic/fs.getContentType'
 

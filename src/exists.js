@@ -1,4 +1,4 @@
-import { fs } from './fs.mjs'
+import { fs } from './fs.js'
 
 import error from '@magic/error'
 import is from '@magic/types'

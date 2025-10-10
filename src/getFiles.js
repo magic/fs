@@ -1,11 +1,11 @@
-import path from 'path'
+import path from 'node:path'
 
-import deep from '@magic/deep'
+// import deep from '@magic/deep'
 import is from '@magic/types'
 import error from '@magic/error'
 
-import { getFilePath } from './getFilePath.mjs'
-import { fs } from './fs.mjs'
+import { getFilePath } from './getFilePath.js'
+import { fs } from './fs.js'
 
 const libName = '@magic/fs.getFiles'
 
@@ -13,7 +13,7 @@ const libName = '@magic/fs.getFiles'
  * @typedef {object} Options
  * @property {number} [minDepth]
  * @property {number} [maxDepth]
- * @property {number} [depth]
+ * @property {number | false} [depth]
  * @property {string} [extension]
  * @property {string} [ext]
  * @property {string} [root]
@@ -47,8 +47,8 @@ export const getFiles = async (dir, options = {}) => {
     extension = ext
   }
 
-  if (is.number(depth) && !is.number(maxDepth)) {
-    maxDepth = depth
+  if (!is.number(maxDepth)) {
+    maxDepth = is.number(depth) ? depth : 1
   }
 
   if (!is.number(maxDepth)) {

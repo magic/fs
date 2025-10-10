@@ -2,7 +2,7 @@ import path from 'path'
 
 import { tryCatch } from '@magic/test'
 
-import fs from '../src/index.mjs'
+import fs from '../src/index.js'
 
 export default [
   {
@@ -41,8 +41,8 @@ export default [
     info: 'wrong third arg type errors',
   },
   {
-    fn: async () => await fs.getFilePath(a => a, path.join(process.cwd(), 'test'), 'spec.mjs'),
-    expect: path.join(process.cwd(), 'test', 'spec.mjs'),
+    fn: async () => await fs.getFilePath(a => a, path.join(process.cwd(), 'test'), 'spec.js'),
+    expect: path.join(process.cwd(), 'test', 'spec.js'),
     info: 'can concatenate paths correctly',
   },
 ]

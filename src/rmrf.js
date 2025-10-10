@@ -9,7 +9,7 @@ const cwd = process.cwd()
 
 const libName = '@magic/fs.rmrf'
 
-/** 
+/**
  * @typedef {object} Options
  * @property {boolean} [dryRun]
  */

@@ -5,9 +5,9 @@
   "description": "nodejs fs promises + goodies",
   "license": "AGPL-3.0",
   "homepage": "https://magic.github.io/fs",
-  "main": "src/index.mjs",
+  "main": "src/index.js",
   "types": "types/index.d.ts",
-  "module": "src/index.mjs",
+  "module": "src/index.js",
   "type": "module",
   "scripts": {
     "start": "npm test",

@@ -51,9 +51,6 @@ export const getFiles = async (dir, options = {}) => {
     maxDepth = is.number(depth) ? depth : 200_000
   }
 
-  if (!is.number(maxDepth)) {
-    maxDepth = 200_000
-  }
   if (!is.number(minDepth)) {
     minDepth = 0
   }
@@ -117,21 +114,13 @@ export const getFiles = async (dir, options = {}) => {
          * filter files if depth is smaller than minDepth
          */
         .filter(file => {
-          if (!file) {
-            return false
-          }
+          const currentDepth =
+            file
+              .replace(root ?? '', '')
+              .split(path.sep)
+              .filter(a => a).length - 1
 
-          if (is.number(minDepth)) {
-            const currentDepth =
-              file
-                .replace(root ?? '', '')
-                .split(path.sep)
-                .filter(a => a).length - 1
-
-            return currentDepth >= minDepth
-          }
-
-          return true
+          return currentDepth >= minDepth
         })
     )
   } catch (e) {

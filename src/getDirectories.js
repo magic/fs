@@ -39,13 +39,10 @@ export const getDirectories = async (dir, options = {}) => {
 
   let { minDepth, maxDepth = false, depth = false, root, noRoot = false } = options
 
-  if (is.number(depth) && !is.number(maxDepth)) {
-    maxDepth = depth
+  if (!is.number(maxDepth)) {
+    maxDepth = is.number(depth) ? depth : 200_000
   }
 
-  if (!is.number(maxDepth)) {
-    maxDepth = 200_000
-  }
   if (!is.number(minDepth)) {
     minDepth = 0
   }
@@ -98,10 +95,6 @@ export const getDirectories = async (dir, options = {}) => {
 
           await Promise.all(
             filePath.map(async file => {
-              if (!is.string(file)) {
-                throw error(`${libName}: path was not a string: ${file}`, 'E_ARG_TYPE')
-              }
-
               try {
                 const stat = await fs.stat(file)
                 if (stat.isDirectory()) {
@@ -127,18 +120,14 @@ export const getDirectories = async (dir, options = {}) => {
     }
 
     const finalized = finalDirs
-      .filter(a => a)
+      .filter(a => is.string(a))
       .filter(dir => {
-        if (is.number(minDepth) && is.string(dir)) {
-          const currentDepth = dir
-            .replace(root || process.cwd(), '')
-            .split(path.sep)
-            .filter(a => a).length
+        const currentDepth = dir
+          .replace(root || process.cwd(), '')
+          .split(path.sep)
+          .filter(a => a).length
 
-          return currentDepth >= minDepth
-        }
-
-        return false
+        return currentDepth >= minDepth
       })
 
     const unique = Array.from(new Set(finalized))

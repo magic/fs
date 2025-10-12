@@ -312,12 +312,16 @@ update dependencies
 - add tests for [...threedot_dirs]
 - update dependencies
 
-##### 0.0.32
+##### 0.0.32 - broken import mapping
 
 - add jsdoc types
 - update dependencies
 
-##### 0.0.33 - unreleased
+##### 0.0.33
+
+- fix import mapping from .mjs to .js
+
+##### 0.0.34 - unreleased
 
 ...
 

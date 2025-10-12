@@ -167,13 +167,13 @@ export default [
     fn: async () => await fs.getFiles(`${dirName}files_extension_md`, { ext: 'md' }),
     before: createTestDirs('files_extension_md'),
     expect: expectedFilesWithExtensionMd,
-    info: 'finds all files with specific extension using ext option',
+    info: 'finds all files with md extension using ext option',
   },
   {
     fn: async () => await fs.getFiles(`${dirName}files_extension_js`, { extension: 'js' }),
     before: createTestDirs('files_extension_js'),
     expect: expectedFilesWithExtensionJs,
-    info: 'finds all files with specific extension using extension option',
+    info: 'finds all files with js extension using extension option',
   },
   {
     fn: async () => await fs.getFiles(`${dirName}files_depth_numeric`, 2),

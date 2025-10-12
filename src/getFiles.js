@@ -48,7 +48,7 @@ export const getFiles = async (dir, options = {}) => {
   }
 
   if (!is.number(maxDepth)) {
-    maxDepth = is.number(depth) ? depth : 1
+    maxDepth = is.number(depth) ? depth : 200_000
   }
 
   if (!is.number(maxDepth)) {
@@ -86,22 +86,33 @@ export const getFiles = async (dir, options = {}) => {
       dirContent.map(file => getFilePath(getFiles, dir, file, { maxDepth, minDepth, root })),
     )
 
-    return await Promise.all(
-      files
-        .flat(20000)
-        .filter(a => !is.undef(a))
-        /*
-         * if an extension parameter has been passed,
-         * remove the file if it does not end with extension
-         */
-        .filter(a => !extension || a.endsWith(extension))
-        /*
-         * filter nonfiles
-         */
-        .filter(f => {
-          const stat = fs.statSync(f)
-          return stat.isFile()
-        })
+    const flatFiles = files
+      .flat(20000)
+      .filter(a => !is.undef(a))
+      /*
+       * if an extension parameter has been passed,
+       * remove the file if it does not end with extension
+       */
+      .filter(a => !extension || a.endsWith(extension))
+
+    /*
+     * filter nonfiles - use async stat
+     */
+    const fileStats = await Promise.all(
+      flatFiles.map(async f => {
+        try {
+          const stat = await fs.stat(f)
+          return { path: f, isFile: stat.isFile() }
+        } catch {
+          return { path: f, isFile: false }
+        }
+      }),
+    )
+
+    return (
+      fileStats
+        .filter(({ isFile }) => isFile)
+        .map(({ path }) => path)
         /*
          * filter files if depth is smaller than minDepth
          */
@@ -121,7 +132,7 @@ export const getFiles = async (dir, options = {}) => {
           }
 
           return true
-        }),
+        })
     )
   } catch (e) {
     const err = /** @type {Error & { code?: string }} */ (e)

@@ -96,27 +96,28 @@ export const getDirectories = async (dir, options = {}) => {
             filePath = [filePath]
           }
 
-          const files = await Promise.all(
+          await Promise.all(
             filePath.map(async file => {
               if (!is.string(file)) {
                 throw error(`${libName}: path was not a string: ${file}`, 'E_ARG_TYPE')
               }
 
-              const stat = await fs.stat(file)
-              if (stat.isDirectory()) {
-                if (is.arr(filePath)) {
-                  dirs.push(...filePath)
-                } else if (is.string(filePath)) {
-                  dirs.push(filePath)
+              try {
+                const stat = await fs.stat(file)
+                if (stat.isDirectory()) {
+                  if (is.array(filePath)) {
+                    dirs.push(...filePath)
+                  } else if (is.string(filePath)) {
+                    dirs.push(filePath)
+                  }
                 }
+              } catch (statErr) {
+                // File might have been deleted between readdir and stat
+                // Just skip it
               }
             }),
           )
-
-          return files
         }
-
-        return
       }),
     )
 

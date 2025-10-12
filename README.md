@@ -312,7 +312,12 @@ update dependencies
 - add tests for [...threedot_dirs]
 - update dependencies
 
-##### 0.0.32 - unreleased
+##### 0.0.32
+
+- add jsdoc types
+- update dependencies
+
+##### 0.0.33 - unreleased
 
 ...
 

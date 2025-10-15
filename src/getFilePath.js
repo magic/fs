@@ -8,16 +8,10 @@ import { fs } from './fs.js'
 const libName = '@magic/fs.getFilePath'
 
 /**
- * @typedef {typeof import('./getFiles.js').getFiles} GetFiles
- * @typedef {typeof import('./getDirectories.js').getDirectories} GetDirectories
  *
- */
-
-/**
- *
- * @param {GetFiles | GetDirectories} fn
+ * @param {import('./getFiles.js').getFiles | import('./getDirectories.js').getDirectories} fn
  * @param {string} dir
- * @param {string} file 
+ * @param {string} file
  * @param {number | {minDepth?: number, maxDepth?: number, depth?: number | false, extension?: string, ext?: string, root?: string}} [args]
  * @returns {Promise<string | string[] | undefined>}
  */

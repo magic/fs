@@ -10,7 +10,7 @@ import { fs } from './fs.js'
 const libName = '@magic/fs.getFiles'
 
 /**
- * @param {string} dir 
+ * @param {string} dir
  * @param {number | {minDepth?: number, maxDepth?: number, depth?: number | false, extension?: string, ext?: string, root?: string}} [options]
  * @returns {Promise<string[]>}
  */

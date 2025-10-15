@@ -42,7 +42,7 @@
     "@magic-themes/docs": "0.0.15",
     "@magic/core": "0.0.156",
     "@magic/format": "0.0.68",
-    "@magic/test": "0.2.22",
+    "@magic/test": "0.2.24",
     "@types/node": "24.7.2",
     "typescript": "5.9.3"
   },

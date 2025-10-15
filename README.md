@@ -321,7 +321,11 @@ update dependencies
 
 - fix import mapping from .mjs to .js
 
-##### 0.0.34 - unreleased
+##### 0.0.34
+
+- update types
+
+##### 0.0.35 - unreleased
 
 ...
 

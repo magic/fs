@@ -11,17 +11,8 @@ import { getFilePath } from './getFilePath.js'
 const libName = '@magic/fs.getDirectories'
 
 /**
- * @typedef {object} Options
- * @property {string} [root]
- * @property {number} [maxDepth]
- * @property {number} [minDepth]
- * @property {boolean | number} [depth]
- * @property {boolean} [noRoot]
- */
-
-/**
  * @param {string | string[]} dir
- * @param {number | false | Options} [options]
+ * @param {number | false | { root?: string, maxDepth?: number, minDepth?: number, depth?: boolean | number, noRoot?: boolean }} [options]
  * if options is a number, its the max depth of recursion.
  * if it is false, maxDepth is set to 1
  * @returns {Promise<string[]>}

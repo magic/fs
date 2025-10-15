@@ -9,7 +9,6 @@ const libName = '@magic/fs.getFilePath'
 
 /**
  * @typedef {typeof import('./getFiles.js').getFiles} GetFiles
- * @typedef {import('./getFiles.js').Options} GetFilesOptions
  * @typedef {typeof import('./getDirectories.js').getDirectories} GetDirectories
  *
  */
@@ -18,8 +17,8 @@ const libName = '@magic/fs.getFilePath'
  *
  * @param {GetFiles | GetDirectories} fn
  * @param {string} dir
- * @param {string} file
- * @param {GetFilesOptions} args
+ * @param {string} file 
+ * @param {number | {minDepth?: number, maxDepth?: number, depth?: number | false, extension?: string, ext?: string, root?: string}} [args]
  * @returns {Promise<string | string[] | undefined>}
  */
 export const getFilePath = async (fn, dir, file, args = {}) => {

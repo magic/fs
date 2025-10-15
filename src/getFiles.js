@@ -10,23 +10,10 @@ import { fs } from './fs.js'
 const libName = '@magic/fs.getFiles'
 
 /**
- * @typedef {object} Options
- * @property {number} [minDepth]
- * @property {number} [maxDepth]
- * @property {number | false} [depth]
- * @property {string} [extension]
- * @property {string} [ext]
- * @property {string} [root]
- */
-
-/**
- * @param {string} dir
- * First argument: directory to scan
- * @param {number | Options} [options]
- * If number, sets maxDepth directly.
+ * @param {string} dir 
+ * @param {number | {minDepth?: number, maxDepth?: number, depth?: number | false, extension?: string, ext?: string, root?: string}} [options]
  * @returns {Promise<string[]>}
  */
-
 export const getFiles = async (dir, options = {}) => {
   if (is.number(options)) {
     options = {

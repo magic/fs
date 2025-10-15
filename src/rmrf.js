@@ -10,16 +10,12 @@ const cwd = process.cwd()
 const libName = '@magic/fs.rmrf'
 
 /**
- * @typedef {object} Options
- * @property {boolean} [dryRun]
- */
-
-/**
  * Recursively removes a file or directory.
  *
  * @throws {Error} If the argument is invalid, outside cwd, or fs operations fail.
  * @param {string} dir
- * @param {Options} [opts]
+ * @param {object} [opts]
+ * @param {boolean} [opts.dryRun]
  * @returns {Promise<boolean | undefined>}
  */
 export const rmrf = async (dir, opts = {}) => {

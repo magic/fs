@@ -1,19 +1,80 @@
 export const fs: {
   readonly mkdirp: (p: string) => Promise<boolean | void>
-  readonly rmrf: (dir: string, opts?: Options) => Promise<boolean | undefined>
+  readonly rmrf: (
+    dir: string,
+    opts?: {
+      dryRun?: boolean | undefined
+    },
+  ) => Promise<boolean | undefined>
   readonly getFileType: (name: string) => string
   readonly getDirectories: (
     dir: string | string[],
-    options?: number | false | Options,
+    options?:
+      | number
+      | false
+      | {
+          root?: string
+          maxDepth?: number
+          minDepth?: number
+          depth?: boolean | number
+          noRoot?: boolean
+        },
   ) => Promise<string[]>
-  readonly getFiles: (dir: string, options?: number | Options) => Promise<string[]>
+  readonly getFiles: (
+    dir: string,
+    options?:
+      | number
+      | {
+          minDepth?: number
+          maxDepth?: number
+          depth?: number | false
+          extension?: string
+          ext?: string
+          root?: string
+        },
+  ) => Promise<string[]>
   readonly exists: (f: import('fs').PathLike) => Promise<boolean>
   readonly getContentType: (uri: string) => string
   readonly getFilePath: (
-    fn: GetFiles | GetDirectories,
+    fn:
+      | ((
+          dir: string,
+          options?:
+            | number
+            | {
+                minDepth?: number
+                maxDepth?: number
+                depth?: number | false
+                extension?: string
+                ext?: string
+                root?: string
+              },
+        ) => Promise<string[]>)
+      | ((
+          dir: string | string[],
+          options?:
+            | number
+            | false
+            | {
+                root?: string
+                maxDepth?: number
+                minDepth?: number
+                depth?: boolean | number
+                noRoot?: boolean
+              },
+        ) => Promise<string[]>),
     dir: string,
     file: string,
-    args?: GetFilesOptions,
+    args?:
+      | number
+      | {
+          minDepth?: number
+          maxDepth?: number
+          depth?: number | false
+          extension?: string
+          ext?: string
+          root?: string
+        },
   ) => Promise<string | string[] | undefined>
   readonly readdir: typeof import('fs/promises').readdir
   readonly readDir: typeof import('fs/promises').readdir

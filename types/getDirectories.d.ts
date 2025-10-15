@@ -1,11 +1,13 @@
 export function getDirectories(
   dir: string | string[],
-  options?: number | false | Options,
+  options?:
+    | number
+    | false
+    | {
+        root?: string
+        maxDepth?: number
+        minDepth?: number
+        depth?: boolean | number
+        noRoot?: boolean
+      },
 ): Promise<string[]>
-export type Options = {
-  root?: string | undefined
-  maxDepth?: number | undefined
-  minDepth?: number | undefined
-  depth?: number | boolean | undefined
-  noRoot?: boolean | undefined
-}

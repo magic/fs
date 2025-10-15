@@ -1,9 +1,41 @@
 export function getFilePath(
-  fn: GetFiles | GetDirectories,
+  fn:
+    | ((
+        dir: string,
+        options?:
+          | number
+          | {
+              minDepth?: number
+              maxDepth?: number
+              depth?: number | false
+              extension?: string
+              ext?: string
+              root?: string
+            },
+      ) => Promise<string[]>)
+    | ((
+        dir: string | string[],
+        options?:
+          | number
+          | false
+          | {
+              root?: string
+              maxDepth?: number
+              minDepth?: number
+              depth?: boolean | number
+              noRoot?: boolean
+            },
+      ) => Promise<string[]>),
   dir: string,
   file: string,
-  args?: GetFilesOptions,
+  args?:
+    | number
+    | {
+        minDepth?: number
+        maxDepth?: number
+        depth?: number | false
+        extension?: string
+        ext?: string
+        root?: string
+      },
 ): Promise<string | string[] | undefined>
-export type GetFiles = typeof import('./getFiles.js').getFiles
-export type GetFilesOptions = import('./getFiles.js').Options
-export type GetDirectories = typeof import('./getDirectories.js').getDirectories

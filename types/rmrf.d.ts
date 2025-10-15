@@ -1,4 +1,6 @@
-export function rmrf(dir: string, opts?: Options): Promise<boolean | undefined>
-export type Options = {
-  dryRun?: boolean | undefined
-}
+export function rmrf(
+  dir: string,
+  opts?: {
+    dryRun?: boolean | undefined
+  },
+): Promise<boolean | undefined>

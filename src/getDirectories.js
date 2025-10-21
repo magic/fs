@@ -38,6 +38,10 @@ export const getDirectories = async (dir, options = {}) => {
     minDepth = 0
   }
 
+  if (noRoot && maxDepth === 1) {
+    maxDepth += 1
+  }
+
   if (!is.array(dir) && !is.string(dir)) {
     throw error(`${libName}: need an array or a string as first argument`, 'E_ARG_TYPE')
   }

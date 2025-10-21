@@ -325,7 +325,12 @@ update dependencies
 
 - update types
 
-##### 0.0.35 - unreleased
+##### 0.0.35
+
+- fs.getDirectories maxDepth will be at least 2 if noRoot is set.
+- update dependencies
+
+##### 0.0.36 - unreleased
 
 ...
 

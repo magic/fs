@@ -27,7 +27,7 @@ export const getFiles = async (dir, options = {}) => {
     depth = false,
     extension = false,
     ext = false,
-    root = process.cwd(),
+    root,
   } = options
 
   if (ext && !extension) {
@@ -50,7 +50,7 @@ export const getFiles = async (dir, options = {}) => {
     throw error(`${libName}: dir: first argument must be a string.`, 'E_ARG_TYPE')
   }
 
-  if (is.empty(root)) {
+  if (is.undefined(root)) {
     root = dir
   }
 

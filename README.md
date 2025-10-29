@@ -330,7 +330,11 @@ update dependencies
 - fs.getDirectories maxDepth will be at least 2 if noRoot is set.
 - update dependencies
 
-##### 0.0.36 - unreleased
+##### 0.0.36
+
+- getFiles: options.root can be undefined, leading to correct depth calculations
+
+##### 0.0.37 - unreleased
 
 ...
 

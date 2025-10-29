@@ -54,11 +54,10 @@ export const getFiles = async (dir, options = {}) => {
     root = dir
   }
 
-  const currentDepth =
-    dir
-      .replace(root, '')
-      .split(path.sep)
-      .filter(a => a).length - 1
+  const currentDepth = dir
+    .replace(root, '')
+    .split(path.sep)
+    .filter(a => a).length
 
   if (currentDepth > maxDepth) {
     return []

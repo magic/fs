@@ -334,7 +334,11 @@ update dependencies
 
 - getFiles: options.root can be undefined, leading to correct depth calculations
 
-##### 0.0.37 - unreleased
+##### 0.0.37
+
+- update dependencies
+
+##### 0.0.38 - unreleased
 
 ...
 

@@ -42,16 +42,16 @@
     "@magic-themes/docs": "0.0.15",
     "@magic/core": "0.0.156",
     "@magic/format": "0.0.68",
-    "@magic/test": "0.2.24",
+    "@magic/test": "0.2.25",
     "@types/node": "24.9.2",
     "typescript": "5.9.3"
   },
   "dependencies": {
-    "@magic/deep": "0.1.18",
-    "@magic/error": "0.0.20",
-    "@magic/log": "0.1.20",
-    "@magic/mime-types": "0.0.21",
-    "@magic/types": "0.1.29"
+    "@magic/deep": "0.1.20",
+    "@magic/error": "0.0.21",
+    "@magic/log": "0.1.21",
+    "@magic/mime-types": "0.0.22",
+    "@magic/types": "0.1.30"
   },
   "files": [
     "src",

@@ -108,15 +108,9 @@ const spec = {
   FileReadStream: 'fn',
   FileWriteStream: 'fn',
   _toUnixTimestamp: 'fn',
-  F_OK: 'num',
-  R_OK: 'num',
-  W_OK: 'num',
-  X_OK: 'num',
   constants: [
     'object',
     {
-      EXTENSIONLESS_FORMAT_JAVASCRIPT: 'num',
-      EXTENSIONLESS_FORMAT_WASM: 'num',
       UV_FS_SYMLINK_DIR: 'num',
       UV_FS_SYMLINK_JUNCTION: 'num',
       O_RDONLY: 'num',

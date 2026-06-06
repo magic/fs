@@ -49,9 +49,11 @@ export const fs: {
   readonly fchmod: typeof fso.fchmod
   readonly fchmodSync: typeof fso.fchmodSync
   readonly lchmodSync: typeof fso.lchmodSync
+  readonly statSync: typeof fso.statSync
   readonly fstat: typeof fso.fstat
   readonly fstatSync: typeof fso.fstatSync
   readonly statfsSync: typeof fso.statfsSync
+  readonly lstatSync: typeof fso.lstatSync
   readonly linkSync: typeof fso.linkSync
   readonly symlinkSync: typeof fso.symlinkSync
   readonly readlinkSync: typeof fso.readlinkSync
@@ -95,7 +97,6 @@ export const fs: {
   readonly opendirSync: typeof fso.opendirSync
   readonly cpSync: typeof fso.cpSync
   readonly globSync: typeof fso.globSync
-  readonly promises: typeof fso.promises
   readonly Stats: typeof fso.Stats
   readonly StatsFs: typeof fso.StatsFs
   readonly Dirent: typeof fso.Dirent
@@ -103,7 +104,6 @@ export const fs: {
   readonly ReadStream: typeof fso.ReadStream
   readonly Utf8Stream: typeof fso.Utf8Stream
   readonly WriteStream: typeof fso.WriteStream
-  readonly statSync: fso.StatSyncFn
-  readonly lstatSync: fso.StatSyncFn
+  readonly promises: typeof fso.promises
 }
 import fso from 'node:fs'

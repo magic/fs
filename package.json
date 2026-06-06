@@ -21,7 +21,9 @@
     "prod": "NODE_ENV=production magic build serve",
     "clean": "magic clean",
     "serve": "magic serve",
-    "dev": "magic dev"
+    "dev": "magic dev",
+    "tsc": "tsc --noEmit",
+    "check": "npm run tsc"
   },
   "engines": {
     "node": ">=14.15.4"

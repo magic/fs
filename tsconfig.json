@@ -1,14 +1,17 @@
 {
+  "include": ["src/**/*"],
+  "exclude": ["example/**/*", "docs/**/*"],
   "compilerOptions": {
     "declaration": true,
     "emitDeclarationOnly": true,
     "allowJs": true,
     "checkJs": true,
     "outDir": "types",
+    "rootDir": "src",
     "strict": true,
     "moduleResolution": "nodenext",
     "target": "ES2022",
-    "module": "nodenext"
-  },
-  "include": ["src/**/*"]
+    "module": "nodenext",
+    "types": ["@types/node"]
+  }
 }

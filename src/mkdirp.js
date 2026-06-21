@@ -1,18 +1,17 @@
-import path from 'path'
-
-import error from '@magic/error'
 import is from '@magic/types'
-
 import { fs } from './fs.js'
+import error from '@magic/error'
 
 const libName = '@magic/fs.mkdirp'
 
 /**
  *
- * @param {string} p
- * @returns {Promise<boolean | void>}
+ * @param {import('node:fs').PathLike} p
+ * @param {import('node:fs').MakeDirectoryOptions} opts
+ *
+ * @returns {Promise<boolean>}
  */
-export const mkdirp = async p => {
+export const mkdirp = async (p, opts = {}) => {
   if (is.empty(p)) {
     throw error(`${libName} expects a non-empty path string as argument.`, 'E_ARG_EMPTY')
   }
@@ -21,17 +20,8 @@ export const mkdirp = async p => {
     throw error(`${libName} expects a path string as argument, got: ${typeof p}`, 'E_ARG_TYPE')
   }
 
-  p = path.resolve(p)
-
   try {
-    const dir = path.dirname(p)
-    let exists = await fs.exists(dir)
-
-    if (!exists) {
-      await mkdirp(dir)
-    }
-
-    await fs.mkdir(p)
+    await fs.mkdir(p, { ...opts, recursive: true })
     return true
   } catch (e) {
     const err = /** @type {Error & { code?: string}} */ (e)

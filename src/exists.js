@@ -1,4 +1,5 @@
 import { fs } from './fs.js'
+import { constants } from 'node:fs'
 
 import error from '@magic/error'
 import is from '@magic/types'
@@ -16,7 +17,7 @@ export const exists = async f => {
   }
 
   try {
-    await fs.stat(f)
+    await fs.access(f, constants.F_OK)
     return true
   } catch (e) {
     const err = /** @type {Error & { code: string }} */ (e)

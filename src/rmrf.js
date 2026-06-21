@@ -1,4 +1,4 @@
-import path from 'path'
+import path from 'node:path'
 
 import is from '@magic/types'
 import error from '@magic/error'
@@ -36,23 +36,10 @@ export const rmrf = async (dir, opts = {}) => {
   }
 
   try {
-    const stat = await fs.stat(dir)
-
-    if (stat.isFile()) {
-      if (!opts.dryRun) {
-        await fs.unlink(dir)
-      }
-      return true
-    } else if (stat.isDirectory()) {
-      const files = await fs.readdir(dir)
-
-      await Promise.all(files.map(async file => await rmrf(path.join(dir, file))))
-
-      if (!opts.dryRun) {
-        await fs.rmdir(dir)
-      }
-      return true
+    if (!opts.dryRun) {
+      await fs.rm(dir, { recursive: true, force: true })
     }
+    return true
   } catch (e) {
     const err = /** @type {Error & { code?: string}} */ (e)
 

@@ -6,8 +6,6 @@ import error from '@magic/error'
 
 import { fs } from './fs.js'
 
-import { getFilePath } from './getFilePath.js'
-
 const libName = '@magic/fs.getDirectories'
 
 /**
@@ -56,68 +54,44 @@ export const getDirectories = async (dir, options = {}) => {
 
   try {
     if (is.array(dir)) {
-      const dirs = await Promise.all(dir.map(async f => await getDirectories(f, options)))
+      const dirs = await Promise.all(dir.map(f => getDirectories(f, options)))
 
       return deep.flatten(...dirs).filter(a => a)
     }
 
-    const currentDepth = dir
-      .replace(root || process.cwd(), '')
-      .split(path.sep)
-      .filter(a => a).length
-
-    if (currentDepth > maxDepth) {
-      return []
-    }
-
-    const dirContent = await fs.readdir(dir)
+    // Use recursive readdir with file types - single syscall, no per-file stat needed
+    const entries = await fs.readdir(dir, { recursive: true, withFileTypes: true })
 
     /** @type {string[]} */
     const dirs = []
 
-    await Promise.all(
-      dirContent.map(async file => {
-        if (!is.string(file)) {
-          throw error(`${libName}: path was not a string: ${file}`, 'E_ARG_TYPE')
-        }
-
-        let filePath = await getFilePath(getDirectories, dir, file, { maxDepth, minDepth, root })
-
-        if (filePath) {
-          if (!is.array(filePath)) {
-            filePath = [filePath]
-          }
-
-          await Promise.all(
-            filePath.map(async file => {
-              try {
-                const stat = await fs.stat(file)
-                if (stat.isDirectory()) {
-                  if (is.array(filePath)) {
-                    dirs.push(...filePath)
-                  } else if (is.string(filePath)) {
-                    dirs.push(filePath)
-                  }
-                }
-              } catch (statErr) {
-                // File might have been deleted between readdir and stat
-                // Just skip it
-              }
-            }),
-          )
-        }
-      }),
-    )
-
-    let finalDirs = deep.flatten(dirs).filter(a => a)
     if (!noRoot) {
-      finalDirs = [dir, ...finalDirs]
+      // Root dir is depth 0
+      if (0 >= minDepth && 0 <= maxDepth) {
+        dirs.push(dir)
+      }
     }
 
-    const finalized = finalDirs
+    for (const entry of entries) {
+      if (entry.isDirectory()) {
+        // Use parentPath + name for correct full path with recursive readdir
+        const fullPath = path.join(entry.parentPath, entry.name)
+
+        // Calculate depth relative to root
+        const relativePath = path.relative(root || dir, fullPath)
+        const entryDepth = relativePath.split(path.sep).filter(Boolean).length
+
+        // Filter by minDepth and maxDepth
+        if (entryDepth >= minDepth && entryDepth <= maxDepth) {
+          dirs.push(fullPath)
+        }
+      }
+    }
+
+    const finalized = dirs
       .filter(a => is.string(a))
-      .filter(dir => {
-        const currentDepth = dir
+      .filter(d => {
+        const currentDepth = d
           .replace(root || process.cwd(), '')
           .split(path.sep)
           .filter(a => a).length

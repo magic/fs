@@ -39,10 +39,17 @@ export const getFilePath = async (fn, dir, file, args = {}) => {
 
   const filePath = path.join(dir, file)
 
-  const stat = await fs.stat(filePath)
-  if (stat.isDirectory()) {
+  // Use readdir with withFileTypes - more efficient than stat
+  const entries = await fs.readdir(dir, { withFileTypes: true })
+  const entry = entries.find(e => e.name === file)
+
+  if (!entry) {
+    return undefined
+  }
+
+  if (entry.isDirectory()) {
     return await fn(filePath, args)
-  } else if (stat.isFile()) {
+  } else if (entry.isFile()) {
     return filePath
   }
 }

@@ -1,10 +1,8 @@
 import path from 'node:path'
 
-// import deep from '@magic/deep'
 import is from '@magic/types'
 import error from '@magic/error'
 
-import { getFilePath } from './getFilePath.js'
 import { fs } from './fs.js'
 
 const libName = '@magic/fs.getFiles'
@@ -54,61 +52,41 @@ export const getFiles = async (dir, options = {}) => {
     root = dir
   }
 
-  const currentDepth = dir
-    .replace(root, '')
-    .split(path.sep)
-    .filter(a => a).length
-
-  if (currentDepth > maxDepth) {
-    return []
-  }
-
   try {
-    const dirContent = await fs.readdir(dir)
-    const files = await Promise.all(
-      dirContent.map(file => getFilePath(getFiles, dir, file, { maxDepth, minDepth, root })),
-    )
+    // Use recursive readdir with file types - single syscall, no per-file stat needed
+    const entries = await fs.readdir(dir, { recursive: true, withFileTypes: true })
 
-    const flatFiles = files
-      .flat(20000)
-      .filter(a => !is.undef(a))
-      /*
-       * if an extension parameter has been passed,
-       * remove the file if it does not end with extension
-       */
-      .filter(a => !extension || a.endsWith(extension))
-
-    /*
-     * filter nonfiles - use async stat
-     */
-    const fileStats = await Promise.all(
-      flatFiles.map(async f => {
-        try {
-          const stat = await fs.stat(f)
-          return { path: f, isFile: stat.isFile() }
-        } catch {
-          return { path: f, isFile: false }
+    return entries
+      .filter(entry => {
+        // Only files
+        if (!entry.isFile()) {
+          return false
         }
-      }),
-    )
 
-    return (
-      fileStats
-        .filter(({ isFile }) => isFile)
-        .map(({ path }) => path)
-        /*
-         * filter files if depth is smaller than minDepth
-         */
-        .filter(file => {
-          const currentDepth =
-            file
-              .replace(root ?? '', '')
-              .split(path.sep)
-              .filter(a => a).length - 1
+        // Calculate depth relative to root - based on parent directory, not file name
+        const parentPath = path.join(entry.parentPath)
+        const relativePath = path.relative(root, parentPath)
+        const entryDepth = relativePath.split(path.sep).filter(Boolean).length
 
-          return currentDepth >= minDepth
-        })
-    )
+        // Filter by maxDepth
+        if (entryDepth > maxDepth) {
+          return false
+        }
+
+        // Filter by minDepth
+        if (entryDepth < minDepth) {
+          return false
+        }
+
+        // Filter by extension
+        if (extension && !relativePath.endsWith(extension)) {
+          return false
+        }
+
+        return true
+      })
+      // Use parentPath + name for correct full path with recursive readdir
+      .map(entry => path.join(entry.parentPath, entry.name))
   } catch (e) {
     const err = /** @type {Error & { code?: string }} */ (e)
     if (err.code === 'ENOENT') {

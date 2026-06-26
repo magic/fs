@@ -26,10 +26,17 @@ export const getDirectories = async (dir, options = {}) => {
     }
   }
 
-  let { minDepth, maxDepth = false, depth = false, root, noRoot = false } = options
+  let { minDepth, maxDepth = false, depth, root, noRoot = false } = options
+
+  // Only apply depth === false logic if explicitly passed, not if undefined
+  const depthExplicitlyFalse = 'depth' in options && depth === false
 
   if (!is.number(maxDepth)) {
-    maxDepth = is.number(depth) ? depth : 200_000
+    if (depthExplicitlyFalse) {
+      maxDepth = 1
+    } else {
+      maxDepth = is.number(depth) ? depth : 200_000
+    }
   }
 
   if (!is.number(minDepth)) {

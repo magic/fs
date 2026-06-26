@@ -43,9 +43,9 @@
     "@magic-modules/pre": "0.0.12",
     "@magic-themes/docs": "0.0.15",
     "@magic/core": "0.0.158",
-    "@magic/format": "0.0.73",
-    "@magic/test": "0.3.12",
-    "@types/node": "25.9.2",
+    "@magic/format": "0.0.74",
+    "@magic/test": "0.3.19",
+    "@types/node": "26.0.1",
     "typescript": "6.0.3"
   },
   "dependencies": {

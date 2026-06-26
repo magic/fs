@@ -56,37 +56,39 @@ export const getFiles = async (dir, options = {}) => {
     // Use recursive readdir with file types - single syscall, no per-file stat needed
     const entries = await fs.readdir(dir, { recursive: true, withFileTypes: true })
 
-    return entries
-      .filter(entry => {
-        // Only files
-        if (!entry.isFile()) {
-          return false
-        }
+    return (
+      entries
+        .filter(entry => {
+          // Only files
+          if (!entry.isFile()) {
+            return false
+          }
 
-        // Calculate depth relative to root - based on parent directory, not file name
-        const parentPath = path.join(entry.parentPath)
-        const relativePath = path.relative(root, parentPath)
-        const entryDepth = relativePath.split(path.sep).filter(Boolean).length
+          // Calculate depth relative to root - based on parent directory, not file name
+          const parentPath = path.join(entry.parentPath)
+          const relativePath = path.relative(root, parentPath)
+          const entryDepth = relativePath.split(path.sep).filter(Boolean).length
 
-        // Filter by maxDepth
-        if (entryDepth > maxDepth) {
-          return false
-        }
+          // Filter by maxDepth
+          if (entryDepth > maxDepth) {
+            return false
+          }
 
-        // Filter by minDepth
-        if (entryDepth < minDepth) {
-          return false
-        }
+          // Filter by minDepth
+          if (entryDepth < minDepth) {
+            return false
+          }
 
-        // Filter by extension
-        if (extension && !relativePath.endsWith(extension)) {
-          return false
-        }
+          // Filter by extension
+          if (extension && !relativePath.endsWith(extension)) {
+            return false
+          }
 
-        return true
-      })
-      // Use parentPath + name for correct full path with recursive readdir
-      .map(entry => path.join(entry.parentPath, entry.name))
+          return true
+        })
+        // Use parentPath + name for correct full path with recursive readdir
+        .map(entry => path.join(entry.parentPath, entry.name))
+    )
   } catch (e) {
     const err = /** @type {Error & { code?: string }} */ (e)
     if (err.code === 'ENOENT') {

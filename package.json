@@ -49,11 +49,11 @@
     "typescript": "6.0.3"
   },
   "dependencies": {
-    "@magic/deep": "0.1.21",
-    "@magic/error": "0.0.23",
-    "@magic/log": "0.1.22",
-    "@magic/mime-types": "0.0.23",
-    "@magic/types": "0.1.37"
+    "@magic/deep": "0.1.22",
+    "@magic/error": "0.0.24",
+    "@magic/log": "0.1.23",
+    "@magic/mime-types": "0.0.24",
+    "@magic/types": "0.1.38"
   },
   "files": [
     "src",

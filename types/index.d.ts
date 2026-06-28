@@ -1,5 +1,8 @@
 export const fs: {
-  readonly mkdirp: (p: string) => Promise<boolean | void>
+  readonly mkdirp: (
+    p: import('node:fs').PathLike,
+    opts?: import('node:fs').MakeDirectoryOptions,
+  ) => Promise<boolean>
   readonly rmrf: (
     dir: string,
     opts?: {
@@ -84,6 +87,7 @@ export const fs: {
   readonly rmDir: typeof import('node:fs/promises').rmdir
   readonly watch: typeof import('node:fs').watch
   readonly access: typeof import('node:fs/promises').access
+  readonly constants: typeof import('node:fs').constants
   readonly copyFile: typeof import('node:fs/promises').copyFile
   readonly open: typeof import('node:fs/promises').open
   readonly rename: typeof import('node:fs/promises').rename
@@ -111,7 +115,6 @@ export const fs: {
   readonly opendir: typeof import('node:fs/promises').opendir
   readonly cp: typeof import('node:fs/promises').cp
   readonly glob: typeof import('node:fs/promises').glob
-  readonly constants: typeof import('node:fs').constants
   readonly renameSync: typeof import('node:fs').renameSync
   readonly truncateSync: typeof import('node:fs').truncateSync
   readonly ftruncate: typeof import('node:fs').ftruncate

@@ -1,5 +1,5 @@
 export const fs: {
-  readonly exists: typeof fso.exists.__promisify__
+  readonly exists: (f: import('node:fs').PathLike) => Promise<boolean>
   readonly readdir: typeof fso.promises.readdir
   readonly readDir: typeof fso.promises.readdir
   readonly readFile: typeof fso.promises.readFile
@@ -8,6 +8,7 @@ export const fs: {
   readonly rmDir: typeof fso.promises.rmdir
   readonly watch: typeof fso.watch
   readonly access: typeof fso.promises.access
+  readonly constants: typeof fso.constants
   readonly copyFile: typeof fso.promises.copyFile
   readonly open: typeof fso.promises.open
   readonly rename: typeof fso.promises.rename
@@ -35,7 +36,6 @@ export const fs: {
   readonly opendir: typeof fso.promises.opendir
   readonly cp: typeof fso.promises.cp
   readonly glob: typeof fso.promises.glob
-  readonly constants: typeof fso.constants
   readonly renameSync: typeof fso.renameSync
   readonly truncateSync: typeof fso.truncateSync
   readonly ftruncate: typeof fso.ftruncate

@@ -1,1 +1,4 @@
-export function mkdirp(p: string): Promise<boolean | void>
+export function mkdirp(
+  p: import('node:fs').PathLike,
+  opts?: import('node:fs').MakeDirectoryOptions,
+): Promise<boolean>
